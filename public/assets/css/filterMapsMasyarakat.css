@@ -1,0 +1,259 @@
+html,body,#viewDiv {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+}
+
+#showFilter {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+#showFilter button {
+    width: 32px;
+    height: 32px;
+    background-color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+#filter {
+    position: fixed;
+    padding: 20px;
+    top: 15px;
+    right: 55px;
+    width: 320px;
+    max-height: 500px;
+    overflow-y: scroll;
+    transform: translate(1200px, 0);
+    transition: transform 0.3s ease-in-out;
+}
+
+#filter.open {
+    transform: translate(0, 0);
+}
+
+#filter .form-group>* {
+    font-size: 13px;
+    margin: 0px;
+}
+
+.close-btn {
+    visibility: hidden;
+}
+
+#logo {
+    display: block;
+    position: absolute;
+    top: 30px;
+    right: 80px;
+}
+
+#showBaseMaps {
+    position: absolute;
+    top: 47.5px;
+    right: 15px;
+}
+
+#showBaseMaps button {
+    width: 32px;
+    height: 32px;
+    background-color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+#fullscreen {
+    position: absolute;
+    top: 81px;
+    right: 15px;
+}
+
+#fullscreen button {
+    width: 32px;
+    height: 32px;
+    background-color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 1px;
+}
+
+#back {
+    position: absolute;
+    top: 114px;
+    right: 15px;
+}
+
+#back button {
+    width: 32px;
+    height: 32px;
+    background-color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+#baseMaps {
+    position: fixed;
+    padding: 15px;
+    top: 15px;
+    right: 55px;
+    width: 320px;
+    max-height: 500px;
+    transform: translate(1200px, 0);
+    transition: transform 0.3s ease-in-out;
+    overflow-y: scroll;
+}
+
+#baseMaps.open {
+    transform: translate(0, 0);
+}
+
+#baseMaps .listMaps ul.row {
+    display: flex;
+}
+
+#baseMaps .listMaps ul li {
+    padding: 0;
+    margin: 5px;
+    list-style: none;
+}
+
+#baseMaps .listMaps ul li button {
+    border: 1px solid #222;
+    padding: 0;
+}
+
+#baseMaps .listMaps ul li button:hover {
+    border: 3px solid green;
+}
+
+#baseMaps .listMaps ul li button:focus {
+    border: 3px solid green;
+}
+
+#baseMaps .listMaps ul li img {
+    display: block;
+    width: 84px;
+    max-height: 56px;
+    background-position: center;
+    object-fit: cover;
+}
+
+/* dinamic height of filter chosen */
+#uptd_chosen .chosen-choices {
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
+#spp_filter_chosen .chosen-choices {
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
+#spp_filter_chosen .chosen-results {
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+#kegiatan_chosen .chosen-choices {
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
+#kegiatan_chosen .chosen-results {
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+#zoom_chosen .chosen-results {
+  max-height: 30px;
+  overflow-y: auto;
+}
+
+@media screen and (max-width: 480px) {
+    #filter {
+      position: fixed;
+      padding: 20px;
+      top: 2%;
+      left: 2%;
+      right: 2%;
+      bottom: 2%;
+      width: auto;
+      max-height: none;
+      overflow-y: auto;
+      transform: translate(1200px, 0);
+      transition: transform 0.3s ease-in-out;
+    }
+  
+    #filter.open {
+      transform: translate(0, 0);
+    }
+  
+    #filter .form-group>* {
+      font-size: 13px;
+      margin: 0px;
+    }
+  
+    .close-btn {
+      visibility: visible;
+    }
+  
+    /* map */
+    #baseMaps {
+      position: fixed;
+      padding: 15px;
+      top: 2%;
+      right: 2%;
+      left: 2%;
+      width: auto;
+      max-height: none;
+      transform: translate(1200px, 0);
+      transition: transform 0.3s ease-in-out;
+      overflow-y: scroll;
+    }
+    
+    #baseMaps.open {
+      transform: translate(0, 0);
+    }
+    
+    #baseMaps .listMaps ul.row {
+      display: flex;
+    }
+    
+    #baseMaps .listMaps ul li {
+      padding: 0;
+      margin: 5px;
+      list-style: none;
+    }
+    
+    #baseMaps .listMaps ul li button {
+      border: 1px solid #222;
+      padding: 0;
+    }
+    
+    #baseMaps .listMaps ul li button:hover {
+      border: 3px solid green;
+    }
+    
+    #baseMaps .listMaps ul li button:focus {
+      border: 3px solid green;
+    }
+    
+    #baseMaps .listMaps ul li img {
+      display: block;
+      width: 100px;
+      max-height: 100vh;
+      background-position: center;
+      object-fit: cover;
+    }
+  }

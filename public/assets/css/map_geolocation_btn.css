@@ -1,0 +1,21 @@
+.mapsWithGetLocationButton {
+    position: relative;
+}
+
+.locationButton {
+    height: 35px;
+    align-content: center;
+    text-align: center;
+    width: 35px;
+    position: absolute;
+    top: 15px;
+    /* border-radius: 50%; */
+    right: 15px;
+    padding: 0;
+    margin: 0;
+}
+
+.locationButton i {
+    padding: 0;
+    margin: 0;
+}

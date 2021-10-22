@@ -1,0 +1,10 @@
+.filter-list {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+.filter-list li {
+  margin: 0 5px;
+}
+
+/*# sourceMappingURL=second_style.css.map */
