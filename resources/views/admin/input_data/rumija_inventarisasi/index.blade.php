@@ -73,9 +73,9 @@
                             @foreach ($data as $data)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
-                                <td>{{ $data->name }}</td>
-                                <td>{{ $data->name }}</td>
-                                <td>{{ $data->name }}</td>
+                                <td>{{ @$data->kategori_inventarisasi->name }}</td>
+                                <td>{{ @$data->kode_lokasi }} {!! @$data->lokasi !!}</td>
+                                <td>{{ @$data->detail->keterangan }}</td>
                                 <td style="min-width: 75px">
                                     <div class="btn-group" role="group" data-placement="top" title=""
                                         data-original-title=".btn-xlg">

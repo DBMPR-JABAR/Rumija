@@ -65,8 +65,9 @@
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <select class="form-control searchableField" id="rumija_inventarisasi_kategori_id" name="rumija_inventarisasi_kategori_id"
+                                        <select class="form-control searchableField kategoriInven" id="rumija_inventarisasi_kategori_id" name="rumija_inventarisasi_kategori_id"
                                             required>
+                                            <option value="">Pilih Kategori</option>
                                             @foreach ($category as $data)
                                             <option value="{{ $data->id }}" id="{{ $data->id }}" @isset($inventaris)
                                                 {{ $inventaris->rumija_inventarisasi_kategori_id == $data->id ? 'selected' : '' }} @endisset>
@@ -95,7 +96,7 @@
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">SUP</label>
                                 <div class="col-md-10">
-                                    <select class="form-control searchableField" id="sup" name="sup_id" onchange="ubahOption1()" required >
+                                    <select class="form-control searchableField" id="sup" name="kd_sup" onchange="ubahOption1()" required >
                                         @if (Auth::user()->internalRole->uptd)
                                         @foreach ($sup as $data)
                                         <option value="{{$data->kd_sup}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
@@ -164,99 +165,99 @@
                         </div>
 
                         <div id="mapLatLong" class="mb-2 full-map" style="height: 300px; width: 100%"></div>
-                        <div class=" form-group row">
-                            <label class="col-md-2 col-form-label">Jenis Pohon</label>
+                        <div class=" form-group row" id="formNama" style="display: none">
+                            <label class="col-md-2 col-form-label">Nama</label>
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="name" value="{{@$inventaris->name}}" type="text" placeholder="" class="form-control">
+                                        <input name="name" id="nama" value="{{@$inventaris->name}}" type="text" placeholder="" class="form-control">
                                         
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class=" form-group row">
+                        <div class=" form-group row" id="formJumlah" style="display: none">
                             {{-- <label class="col-md-2 col-form-label">Luas (m<sup>2</sup>)</label> --}}
                             <label class="col-md-2 col-form-label">Jumlah</label>
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="jumlah"
+                                        <input id="jumlah" pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="jumlah"
                                             value="{{@$inventaris->jumlah}}" type="number" class="form-control" min="0"
                                             step="0.01">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class=" form-group row">
+                        <div class=" form-group row" id="formPanjang" style="display: none">
                             {{-- <label class="col-md-2 col-form-label">Luas (m<sup>2</sup>)</label> --}}
                             <label class="col-md-2 col-form-label">Panjang</label>
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="panjang"
+                                        <input id="panjang" pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="panjang"
                                             value="{{@$inventaris->panjang}}" type="number" class="form-control" min="0"
                                             step="0.01">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class=" form-group row">
+                        <div class=" form-group row" id="formLebar" style="display: none">
                             {{-- <label class="col-md-2 col-form-label">Luas (m<sup>2</sup>)</label> --}}
                             <label class="col-md-2 col-form-label">Lebar</label>
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="lebar"
+                                        <input id="lebar" pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="lebar"
                                             value="{{@$inventaris->lebar}}" type="number" class="form-control" min="0"
                                             step="0.01">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class=" form-group row">
+                        <div class=" form-group row" id="formTinggi" style="display: none">
                             {{-- <label class="col-md-2 col-form-label">Luas (m<sup>2</sup>)</label> --}}
                             <label class="col-md-2 col-form-label">Tinggi</label>
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="tinggi"
+                                        <input id="tinggi" pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="tinggi"
                                             value="{{@$inventaris->tinggi}}" type="number" class="form-control" min="0"
                                             step="0.01">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class=" form-group row">
+                        <div class=" form-group row" id="formDiameter" style="display: none">
                             {{-- <label class="col-md-2 col-form-label">Luas (m<sup>2</sup>)</label> --}}
                             <label class="col-md-2 col-form-label">Diameter</label>
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="diameter"
+                                        <input id="diameter" pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="diameter"
                                             value="{{@$inventaris->diameter}}" type="number" class="form-control" min="0"
                                             step="0.01">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class=" form-group row">
+                        <div class=" form-group row" id="formKontruksi" style="display: none">
                             <label class="col-md-2 col-form-label">Kontruksi</label>
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="kontruksi" value="{{@$inventaris->kontruksi}}" type="text" class="form-control">
+                                        <input id="kontruksi" name="kontruksi" value="{{@$inventaris->kontruksi}}" type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class=" form-group row">
+                        <div class=" form-group row" id="formPosisi" style="display: none">
                             <label class="col-md-2 col-form-label">Posisi</label>
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <select class="form-control searchableField" name="posisi" >
+                                        <select id="posisi" class="form-control searchableField" name="posisi" >
                                             <option value="">Pilih Posisi</option>
                                             <option value="Kanan" @if(Auth::user()->sup_id == 'Kanan') selected @endif>Kanan</option>
                                             <option value="Kiri" @if(Auth::user()->sup_id == 'Kiri') selected @endif>Kiri</option>
@@ -276,12 +277,12 @@
                                 <input id="foto" name="foto" type="file" accept="image/*" class="form-control">
                             </div>
                         </div> --}}
-                        <div class=" form-group row">
+                        <div class=" form-group row" id="formDesa" style="display: none">
                             <label class="col-md-2 col-form-label">Desa</label>
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="desa" value="{{@$inventaris->desa}}" type="text" class="form-control">
+                                        <input name="desa" id="desa" value="{{@$inventaris->desa}}" type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -323,7 +324,232 @@
 
 <script>
     $(document).ready(function() {
-        
+        $(".kategoriInven").change(function() {
+            setTabVisibility();
+        });
+
+        setTabVisibility();
+
+        function setTabVisibility() {
+            var selectedVal = $(".kategoriInven").val();
+            
+            if (selectedVal == "1") {
+                $("#formNama").show()
+                $("#nama").val('').attr('placeholder','Nama Jembatan')
+
+                $("#formJumlah").hide()
+                $("#jumlah").val('')
+
+                $("#formPanjang").show()
+
+                $("#formLebar").hide()
+                $("#lebar").val('')
+
+                $("#formTinggi").hide()
+                $("#tinggi").val('')
+
+                $("#formDiameter").hide()
+                $("#diameter").val('')
+
+                $("#formKontruksi").show()
+
+                $("#formPosisi").hide()
+                $("#posisi").val('')
+
+                $("#formDesa").show()
+
+            } else if (selectedVal == "2") {
+                $("#formNama").hide()
+                $("#nama").val('')
+
+                $("#formJumlah").hide()
+                $("#jumlah").val('')
+
+                $("#formPanjang").hide()
+                $("#panjang").val('')
+
+                $("#formLebar").hide()
+                $("#lebar").val('')
+
+                $("#formTinggi").hide()
+                $("#tinggi").val('')
+
+                $("#formDiameter").hide()
+                $("#diameter").val('')
+
+                $("#formKontruksi").hide()
+                $("#kontruksi").val('')
+
+                $("#formPosisi").hide()
+                $("#posisi").val('')
+                
+                $("#formDesa").show()
+
+            }else if(selectedVal == "3"){
+                $("#formNama").hide()
+                $("#nama").val('')
+
+                $("#formJumlah").hide()
+                $("#jumlah").val('')
+
+                $("#formPanjang").show()
+                $("#panjang").val('')
+
+                $("#formLebar").show()
+                $("#lebar").val('')
+
+                $("#formTinggi").show()
+                $("#tinggi").val('')
+
+                $("#formDiameter").hide()
+                $("#diameter").val('')
+
+                $("#formKontruksi").hide()
+                $("#kontruksi").val('')
+
+                $("#formPosisi").show()
+                $("#posisi").val('')
+                
+                $("#formDesa").hide()
+                $("#desa").val('')
+            }else if(selectedVal == "4"){
+                $("#formNama").show()
+                $("#nama").val('').attr('placeholder','Nama Jenis Pohon')
+
+                $("#formJumlah").show()
+                $("#jumlah").val('')
+
+                $("#formPanjang").hide()
+                $("#panjang").val('')
+
+                $("#formLebar").hide()
+                $("#lebar").val('')
+
+                $("#formTinggi").hide()
+                $("#tinggi").val('')
+
+                $("#formDiameter").show()
+                $("#diameter").val('')
+
+                $("#formKontruksi").hide()
+                $("#kontruksi").val('')
+
+                $("#formPosisi").show()
+                $("#posisi").val('')
+                
+                $("#formDesa").hide()
+                $("#desa").val('')
+            }else if(selectedVal == "5"){
+                $("#formNama").hide()
+                $("#nama").val('')
+
+                $("#formJumlah").show()
+                $("#jumlah").val('')
+
+                $("#formPanjang").hide()
+                $("#panjang").val('')
+
+                $("#formLebar").hide()
+                $("#lebar").val('')
+
+                $("#formTinggi").hide()
+                $("#tinggi").val('')
+
+                $("#formDiameter").hide()
+                $("#diameter").val('')
+
+                $("#formKontruksi").hide()
+                $("#kontruksi").val('')
+
+                $("#formPosisi").show()
+                $("#posisi").val('')
+                
+                $("#formDesa").hide()
+                $("#desa").val('')
+            }else if(selectedVal == "6"){
+                $("#formNama").hide()
+                $("#nama").val('')
+
+                $("#formJumlah").hide()
+                $("#jumlah").val('')
+
+                $("#formPanjang").show()
+                $("#panjang").val('')
+
+                $("#formLebar").show()
+                $("#lebar").val('')
+
+                $("#formTinggi").show()
+                $("#tinggi").val('')
+
+                $("#formDiameter").hide()
+                $("#diameter").val('')
+
+                $("#formKontruksi").hide()
+                $("#kontruksi").val('')
+
+                $("#formPosisi").show()
+                $("#posisi").val('')
+                
+                $("#formDesa").hide()
+                $("#desa").val('')
+            }else if(selectedVal == "7"){
+                $("#formNama").hide()
+                $("#nama").val('')
+
+                $("#formJumlah").hide()
+                $("#jumlah").val('')
+
+                $("#formPanjang").show()
+                $("#panjang").val('')
+
+                $("#formLebar").show()
+                $("#lebar").val('')
+
+                $("#formTinggi").hide()
+                $("#tinggi").val('')
+
+                $("#formDiameter").hide()
+                $("#diameter").val('')
+
+                $("#formKontruksi").hide()
+                $("#kontruksi").val('')
+
+                $("#formPosisi").show()
+                $("#posisi").val('')
+                
+                $("#formDesa").hide()
+                $("#desa").val('')
+            }else {
+                // $("#formNama").hide()
+                // $("#nama").val('')
+
+                // $("#formJumlah").hide()
+                // $("#jumlah").val('')
+
+                // $("#formPanjang").hide()
+                // $("#panjang").val('')
+
+                // $("#formLebar").hide()
+                // $("#lebar").val('')
+
+                // $("#formTinggi").hide()
+                // $("#tinggi").val('')
+
+                // $("#formDiameter").hide()
+                // $("#diameter").val('')
+
+                // $("#formKontruksi").hide()
+                // $("#kontruksi").val('')
+
+                // $("#formPosisi").hide()
+                // $("#posisi").val('')
+                
+                // $("#formDesa").hide()
+                // $("#desa").val('')
+
+            }
+        }
 
         const filePreviews = [
             {

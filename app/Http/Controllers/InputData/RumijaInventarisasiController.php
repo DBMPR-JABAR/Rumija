@@ -16,7 +16,7 @@ class RumijaInventarisasiController extends Controller
     //
     public function index()
     {
-        $data = DB::table('rumija_inventarisasi')->get();
+        $data = Inventarisasi::get();
         return view('admin.input_data.rumija_inventarisasi.index', compact('data'));
     }
     public function create()
@@ -33,7 +33,7 @@ class RumijaInventarisasiController extends Controller
             
             'rumija_inventarisasi_kategori_id' => 'required',
             'uptd_id' => 'required',
-            'sup_id' => 'required',
+            'kd_sup' => 'required',
             'id_ruas_jalan' => 'required',
             'kode_lokasi' => 'required',
             'lokasi' => 'required',
@@ -62,12 +62,15 @@ class RumijaInventarisasiController extends Controller
         $temp = [
             'rumija_inventarisasi_kategori_id' => $request->rumija_inventarisasi_kategori_id,
             'uptd_id' => $request->uptd_id,
-            'kd_sup' => $request->sup_id,
+            'kd_sup' => $request->kd_sup,
             'id_ruas_jalan' => $request->id_ruas_jalan,
             'kode_lokasi' => $request->kode_lokasi,
             'lokasi' => $request->lokasi,
             'lat' => $request->lat,
             'lng' => $request->lng,
+            
+        ];
+        $detail =[
             'name' => $request->name,
             'jumlah' => $request->jumlah,
             'panjang' => $request->panjang,
@@ -79,10 +82,10 @@ class RumijaInventarisasiController extends Controller
             'desa' => $request->desa,
             'keterangan' => $request->keterangan,
         ];
+        
+        $inventarisasi = Inventarisasi::create($temp);
+        $inventarisasi->detail()->create($detail);
         dd($temp);
-
-        $category = Inventarisasi::create($temp);
-
         if($category){
             //redirect dengan pesan sukses
             storeLogActivity(declarLog(1, 'Inventarisasi', $request->name, 1 ));
