@@ -504,6 +504,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('/permohonan_rumija/surat_permohonan/{id}', 'InputData\PermohonanRumijaController@surat_permohonan_rumija')->name('surat_permohonan_rumija');
             Route::get('/permohonan_rumija/delete/{id}', 'InputData\PermohonanRumijaController@destroy');
             Route::resource('/permohonan_rumija', 'InputData\PermohonanRumijaController');
+            Route::prefix('inventarisasi')->group(function () {
+                Route::get('/', 'InputData\RumijaInventarisasiController@index')->name('rumija.inventarisasi.index');
+                Route::get('/create', 'InputData\RumijaInventarisasiController@create')->name('rumija.inventarisasi.create');
+
+                Route::get('/kategori/', 'InputData\RumijaInventarisasiController@get_category')->name('rumija.inventarisasi.kategori.index');
+                Route::get('/kategori/create', 'InputData\RumijaInventarisasiController@create_category')->name('rumija.inventarisasi.kategori.create');
+                Route::post('/kategori/store', 'InputData\RumijaInventarisasiController@store_category')->name('rumija.inventarisasi.kategori.store');
+                Route::get('/kategori/edit/{id}', 'InputData\RumijaInventarisasiController@edit_category')->name('rumija.inventarisasi.kategori.edit');
+                Route::put('/kategori/update/{id}', 'InputData\RumijaInventarisasiController@update_category')->name('rumija.inventarisasi.kategori.update');
+                Route::get('/kategori/delete/{id}', 'InputData\RumijaInventarisasiController@destroy_category')->name('rumija.inventarisasi.kategori.delete');
+
+            });
         });
     });
 
