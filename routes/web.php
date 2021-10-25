@@ -17,7 +17,7 @@ Route::get('test', function () {
     return view('admin.layout.index');
 });
 // {SiteURL}
-Route::get('/', 'LandingController@index')->name('/');
+Route::get('/', 'LandingController@login')->name('/');
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('admin');
 
@@ -504,9 +504,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('/permohonan_rumija/surat_permohonan/{id}', 'InputData\PermohonanRumijaController@surat_permohonan_rumija')->name('surat_permohonan_rumija');
             Route::get('/permohonan_rumija/delete/{id}', 'InputData\PermohonanRumijaController@destroy');
             Route::resource('/permohonan_rumija', 'InputData\PermohonanRumijaController');
-            
         });
-        
     });
     Route::prefix('inventarisasi')->group(function () {
         Route::get('/list', 'InputData\RumijaInventarisasiController@index')->name('rumija.inventarisasi.index');
@@ -520,6 +518,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::put('/kategori/update/{id}', 'InputData\RumijaInventarisasiController@update_category')->name('rumija.inventarisasi.kategori.update');
         Route::get('/kategori/delete/{id}', 'InputData\RumijaInventarisasiController@destroy_category')->name('rumija.inventarisasi.kategori.delete');
 
+        Route::get('/report', 'InputData\ReportInventarisRumijaController@index')->name('rumija.inventarisasi.report.index');
+        Route::get('/download', 'InputData\ReportInventarisRumijaController@download')->name('rumija.inventarisasi.report.download');
     });
     Route::group(['prefix' => 'lapor'], function () {
         Route::get('/', 'LaporController@index')->name('getLapor');

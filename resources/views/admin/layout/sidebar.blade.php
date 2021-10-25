@@ -105,7 +105,7 @@
           </a>
           <ul class="pcoded-submenu">
             @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))
-              <li class="@if(Request::segment(3) == 'list' || Request::segment(3) == 'create') active @endif">
+              <li class="@if (Request::segment(3) == 'list' || Request::segment(3) == 'create') active @endif">
                 <a href="{{ route('rumija.inventarisasi.index') }}" class="waves-effect waves-dark">
                   <span class="pcoded-mtext">Data</span>
                 </a>
@@ -113,9 +113,15 @@
             @endif
             @if (hasAccess(Auth::user()->internal_role_id, 'Permohonan Rumija', 'View'))
               <li class="{{ Request::segment(3) == 'kategori' ? 'active' : '' }}">
-                <a href="{{ route('rumija.inventarisasi.kategori.index') }}"
-                  class="waves-effect waves-dark">
+                <a href="{{ route('rumija.inventarisasi.kategori.index') }}" class="waves-effect waves-dark">
                   <span class="pcoded-mtext">Kategori</span>
+                </a>
+              </li>
+            @endif
+            @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))
+              <li class="@if (Request::segment(3) == 'report') active @endif">
+                <a href="{{ route('rumija.inventarisasi.report.index') }}" class="waves-effect waves-dark">
+                  <span class="pcoded-mtext">Laporan</span>
                 </a>
               </li>
             @endif
