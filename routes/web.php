@@ -510,6 +510,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('/list', 'InputData\RumijaInventarisasiController@index')->name('rumija.inventarisasi.index');
         Route::get('/create', 'InputData\RumijaInventarisasiController@create')->name('rumija.inventarisasi.create');
         Route::post('/store', 'InputData\RumijaInventarisasiController@store')->name('rumija.inventarisasi.store');
+        Route::get('/edit/{id}', 'InputData\RumijaInventarisasiController@edit')->name('rumija.inventarisasi.edit');
 
         Route::get('/kategori/', 'InputData\RumijaInventarisasiController@get_category')->name('rumija.inventarisasi.kategori.index');
         Route::get('/kategori/create', 'InputData\RumijaInventarisasiController@create_category')->name('rumija.inventarisasi.kategori.create');

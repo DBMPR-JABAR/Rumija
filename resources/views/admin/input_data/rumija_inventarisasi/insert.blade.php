@@ -80,47 +80,47 @@
                         </div>
                         @if (Auth::user()->internalRole->uptd)
                             <input type="hidden" id="uptd" name="uptd_id" value="{{Auth::user()->internalRole->uptd}}">
-                            @else
+                        @else
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">Uptd</label>
                                 <div class="col-md-10">
-                                    <select class="form-control searchableField" id="uptd" name="uptd_id" onchange="ubahOption()" required>
+                                    <select class="form-control" id="uptd" name="uptd_id" onchange="ubahOption()" required>
                                         <option>Pilih UPTD</option>
                                         @foreach ($input_uptd_lists as $data)
-                                        <option value="{{$data->id}}">{{$data->nama}}</option>
+                                        <option value="{{$data->id}}" @if($data->id == @$inventaris->uptd_id) selected @endif>{{$data->nama}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            @endif
-                            <div class="form-group row">
-                                <label class="col-md-2 col-form-label">SUP</label>
-                                <div class="col-md-10">
-                                    <select class="form-control searchableField" id="sup" name="kd_sup" onchange="ubahOption1()" required >
-                                        @if (Auth::user()->internalRole->uptd)
-                                        @foreach ($sup as $data)
-                                        <option value="{{$data->kd_sup}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
+                        @endif
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">SUP</label>
+                            <div class="col-md-10">
+                                <select class="form-control searchableField" id="sup" name="kd_sup" onchange="ubahOption1()" required >
+                                    @if (@$inventaris->kd_sup)
+                                    @foreach ($sup as $data)
+                                    <option value="{{$data->kd_sup}}" @if( $data->kd_sup == @$inventaris->kd_sup) selected @endif>{{$data->name}}</option>
+                                    @endforeach
+                                    @else
+                                    <option>-</option>
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Ruas Jalan</label>
+                            <div class="col-md-10">
+                                <select class="form-control searchableField" id="ruas_jalan" name="id_ruas_jalan" required>
+                                    @if (@$inventaris->id_ruas_jalan)
+                                        @foreach ($input_ruas_jalan as $data)
+                                            <option value="{{$data->id_ruas_jalan}}" @if( $data->id_ruas_jalan == @$inventaris->id_ruas_jalan) selected @endif>{{$data->nama_ruas_jalan}}</option>
                                         @endforeach
-                                        @else
+                                    @else
                                         <option>-</option>
-                                        @endif
-                                    </select>
-                                </div>
+                                    @endif
+                                </select>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-md-2 col-form-label">Ruas Jalan</label>
-                                <div class="col-md-10">
-                                    <select class="form-control searchableField" id="ruas_jalan" name="id_ruas_jalan" required>
-                                        @if (Auth::user()->internalRole->uptd)
-                                            @foreach ($input_ruas_jalan as $data)
-                                                <option value="{{$data->id_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
-                                            @endforeach
-                                        @else
-                                            <option>-</option>
-                                        @endif
-                                    </select>
-                                </div>
-                            </div>
+                        </div>
                         <div class=" form-group row">
                             <label class="col-md-2 col-form-label">Lokasi</label>
                             <div class="col-md-10">
@@ -128,7 +128,7 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <input name="kode_lokasi" value="{{@$inventaris->lokasi}}" type="text" placeholder="KM.CN" class="form-control" required>
+                                                <input name="kode_lokasi" value="{{@$inventaris->kode_lokasi}}" type="text" placeholder="KM.CN" class="form-control" required>
                                             </div>
                                             <div class="col-md-8">
                                                 <input name="lokasi" value="{{@$inventaris->lokasi}}" type="text" placeholder="56+600 - 56+700" class="form-control" required>
@@ -170,7 +170,7 @@
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="name" id="nama" value="{{@$inventaris->name}}" type="text" placeholder="" class="form-control">
+                                        <input name="name" id="nama" value="{{@$inventaris->detail->name}}" type="text" placeholder="" class="form-control">
                                         
                                     </div>
                                 </div>
@@ -183,7 +183,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <input id="jumlah" pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="jumlah"
-                                            value="{{@$inventaris->jumlah}}" type="number" class="form-control" min="0"
+                                            value="{{@$inventaris->detail->jumlah}}" type="number" class="form-control" min="0"
                                             step="0.01">
                                     </div>
                                 </div>
@@ -196,7 +196,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <input id="panjang" pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="panjang"
-                                            value="{{@$inventaris->panjang}}" type="number" class="form-control" min="0"
+                                            value="{{@$inventaris->detail->panjang}}" type="number" class="form-control" min="0"
                                             step="0.01">
                                     </div>
                                 </div>
@@ -209,7 +209,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <input id="lebar" pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="lebar"
-                                            value="{{@$inventaris->lebar}}" type="number" class="form-control" min="0"
+                                            value="{{@$inventaris->detail->lebar}}" type="number" class="form-control" min="0"
                                             step="0.01">
                                     </div>
                                 </div>
@@ -222,7 +222,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <input id="tinggi" pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="tinggi"
-                                            value="{{@$inventaris->tinggi}}" type="number" class="form-control" min="0"
+                                            value="{{@$inventaris->detail->tinggi}}" type="number" class="form-control" min="0"
                                             step="0.01">
                                     </div>
                                 </div>
@@ -235,7 +235,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <input id="diameter" pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="diameter"
-                                            value="{{@$inventaris->diameter}}" type="number" class="form-control" min="0"
+                                            value="{{@$inventaris->detail->diameter}}" type="number" class="form-control" min="0"
                                             step="0.01">
                                     </div>
                                 </div>
@@ -246,7 +246,7 @@
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input id="kontruksi" name="kontruksi" value="{{@$inventaris->kontruksi}}" type="text" class="form-control">
+                                        <input id="kontruksi" name="kontruksi" value="{{@$inventaris->detail->kontruksi}}" type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -255,23 +255,20 @@
                         <div class=" form-group row" id="formPosisi" style="display: none">
                             <label class="col-md-2 col-form-label">Posisi</label>
                             <div class="col-md-10">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <select id="posisi" class="form-control searchableField" name="posisi" >
-                                            <option value="">Pilih Posisi</option>
-                                            <option value="Kanan" @if(Auth::user()->sup_id == 'Kanan') selected @endif>Kanan</option>
-                                            <option value="Kiri" @if(Auth::user()->sup_id == 'Kiri') selected @endif>Kiri</option>
-                                           
-                                        </select>    
-                                    </div>
-                                </div>
+                                <select id="posisi" class="form-control " name="posisi" style="min-width: 100%" >
+                                    <option value="">Pilih Posisi</option>
+                                    <option value="Kanan" @if($inventaris->detail->posisi == 'Kanan') selected @endif>Kanan</option>
+                                    <option value="Kiri" @if($inventaris->detail->posisi == 'Kiri') selected @endif>Kiri</option>
+                                   
+                                </select>    
+                                
                             </div>
                         </div>
                         {{-- <div class="form-group row">
                             <label class="col-md-2 col-form-label">Foto 1</label>
                             <div class="col-md-5">
                                 <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block"
-                                    id="foto_preview" src="{{ url('storage/' . @$inventaris->foto) }}" alt="">
+                                    id="foto_preview" src="{{ url('storage/' . @$inventaris->detail->foto) }}" alt="">
                             </div>
                             <div class="col-md-5">
                                 <input id="foto" name="foto" type="file" accept="image/*" class="form-control">
@@ -282,7 +279,7 @@
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="desa" id="desa" value="{{@$inventaris->desa}}" type="text" class="form-control">
+                                        <input name="desa" id="desa" value="{{@$inventaris->detail->desa}}" type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -292,7 +289,7 @@
                             <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input name="keterangan" value="{{@$inventaris->keterangan}}" type="text" class="form-control">
+                                        <input name="keterangan" value="{{@$inventaris->detail->keterangan}}" type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -335,7 +332,7 @@
             
             if (selectedVal == "1") {
                 $("#formNama").show()
-                $("#nama").val('').attr('placeholder','Nama Jembatan')
+                $("#nama").attr('placeholder','Nama Jembatan')
 
                 $("#formJumlah").hide()
                 $("#jumlah").val('')
@@ -354,7 +351,7 @@
                 $("#formKontruksi").show()
 
                 $("#formPosisi").hide()
-                $("#posisi").val('')
+                $("#posisi").val('').change()
 
                 $("#formDesa").show()
 
@@ -381,7 +378,7 @@
                 $("#kontruksi").val('')
 
                 $("#formPosisi").hide()
-                $("#posisi").val('')
+                $("#posisi").val('').change()
                 
                 $("#formDesa").show()
 
@@ -393,13 +390,10 @@
                 $("#jumlah").val('')
 
                 $("#formPanjang").show()
-                $("#panjang").val('')
 
                 $("#formLebar").show()
-                $("#lebar").val('')
 
                 $("#formTinggi").show()
-                $("#tinggi").val('')
 
                 $("#formDiameter").hide()
                 $("#diameter").val('')
@@ -408,16 +402,14 @@
                 $("#kontruksi").val('')
 
                 $("#formPosisi").show()
-                $("#posisi").val('')
                 
                 $("#formDesa").hide()
                 $("#desa").val('')
             }else if(selectedVal == "4"){
                 $("#formNama").show()
-                $("#nama").val('').attr('placeholder','Nama Jenis Pohon')
+                $("#nama").attr('placeholder','Nama Jenis Pohon')
 
                 $("#formJumlah").show()
-                $("#jumlah").val('')
 
                 $("#formPanjang").hide()
                 $("#panjang").val('')
@@ -429,13 +421,11 @@
                 $("#tinggi").val('')
 
                 $("#formDiameter").show()
-                $("#diameter").val('')
 
                 $("#formKontruksi").hide()
                 $("#kontruksi").val('')
 
                 $("#formPosisi").show()
-                $("#posisi").val('')
                 
                 $("#formDesa").hide()
                 $("#desa").val('')
@@ -444,7 +434,6 @@
                 $("#nama").val('')
 
                 $("#formJumlah").show()
-                $("#jumlah").val('')
 
                 $("#formPanjang").hide()
                 $("#panjang").val('')
@@ -462,7 +451,6 @@
                 $("#kontruksi").val('')
 
                 $("#formPosisi").show()
-                $("#posisi").val('')
                 
                 $("#formDesa").hide()
                 $("#desa").val('')
@@ -474,13 +462,10 @@
                 $("#jumlah").val('')
 
                 $("#formPanjang").show()
-                $("#panjang").val('')
 
                 $("#formLebar").show()
-                $("#lebar").val('')
 
                 $("#formTinggi").show()
-                $("#tinggi").val('')
 
                 $("#formDiameter").hide()
                 $("#diameter").val('')
@@ -489,7 +474,6 @@
                 $("#kontruksi").val('')
 
                 $("#formPosisi").show()
-                $("#posisi").val('')
                 
                 $("#formDesa").hide()
                 $("#desa").val('')
@@ -501,10 +485,8 @@
                 $("#jumlah").val('')
 
                 $("#formPanjang").show()
-                $("#panjang").val('')
 
                 $("#formLebar").show()
-                $("#lebar").val('')
 
                 $("#formTinggi").hide()
                 $("#tinggi").val('')
@@ -516,7 +498,6 @@
                 $("#kontruksi").val('')
 
                 $("#formPosisi").show()
-                $("#posisi").val('')
                 
                 $("#formDesa").hide()
                 $("#desa").val('')
