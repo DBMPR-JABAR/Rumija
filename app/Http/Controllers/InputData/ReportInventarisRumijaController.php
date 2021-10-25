@@ -51,7 +51,6 @@ class ReportInventarisRumijaController extends Controller
         $ruas_jalan_split = "";
         foreach ($request->id_ruas_jalan as $id) {
             $id_split = explode('___', $id);
-            // dd($id_split);
             if ($ruas_jalan_split !== "") $ruas_jalan_split = $ruas_jalan_split . '; ' . $id_split[1];
             else  $ruas_jalan_split = $ruas_jalan_split . $id_split[1];
         }
@@ -75,5 +74,17 @@ class ReportInventarisRumijaController extends Controller
         }
 
         return response()->download(storage_path($path));
+    }
+
+    public function getTemplateData($data)
+    {
+        $KODE_KM = 'kode_km';
+        $LOKASI_JEMBATAN = ['a_no', 'a_nama', 'a_lokasi', 'a_panjang', 'a_kontruksi', 'a_desa', 'a_keterangan'];
+        $GORONG_GORONG = ['b_no', 'b_lokasi', 'b_desa', 'b_keterangan'];
+        $TPT = ['c_no', 'c_lokasi_awal', 'c_lokasi_akhir', 'c_ka_ki', 'c_dp', 'c_dl', 'c_dt', 'c_keterangan'];
+        $DATA_POHON = ['d_no', 'd_lokasi_awal', 'd_lokasi_akhir', 'd_jenis_pohon', 'd_jumlah', 'd_ka_ki', 'd_diameter', 'd_keterangan'];
+        $DATA_PATOK_PENGARAH_HM_KM = ['e_no', 'e_lokasi_awal', 'e_lokasi_akhir', 'e_jumlah', 'e_ka_ki', 'e_keterangan}'];
+        $SALURAN = ['f_no', 'f_lokasi_awal', 'f_lokasi_akhir', 'f_ka_ki', 'f_dp', 'f_dl', 'f_dt', 'f_keterangan'];
+        $BAHU_JALAN = ['g_no', 'g_lokasi_awal', 'g_lokasi_akhir', 'g_lebar', 'g_panjang', 'g_ka_ki', 'g_keterangan'];
     }
 }
