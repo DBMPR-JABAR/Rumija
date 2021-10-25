@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+
 class RumijaInventarisasiController extends Controller
 {
     //
@@ -85,7 +87,6 @@ class RumijaInventarisasiController extends Controller
         
         $inventarisasi = Inventarisasi::create($temp);
         $inventarisasi->detail()->create($detail);
-        dd($temp);
         if($category){
             //redirect dengan pesan sukses
             storeLogActivity(declarLog(1, 'Inventarisasi', $request->name, 1 ));
@@ -95,6 +96,30 @@ class RumijaInventarisasiController extends Controller
             storeLogActivity(declarLog(1, 'Inventarisasi', $request->name ));
             return redirect()->route('rumija.inventarisasi.kategori.create')->with(['danger' => 'Data Gagal Disimpan!']);
         }
+    }
+    public function edit($id)
+    {
+        
+        $inventaris = Inventarisasi::find($id);
+        $uptd = DB::table('landing_uptd')->get();
+        // $ruas_jalan = DB::table('master_ruas_jalan')->get();
+        $ruas_jalan = DB::table('master_ruas_jalan');
+        if (Auth::user()->internalRole->uptd) {
+            $ruas_jalan = $ruas_jalan->where('uptd_id', $uptd_id);
+        }
+        $ruas_jalan = $ruas_jalan->get();
+
+        $category = InventarisasiKategori::all();
+        $action = 'update';
+        
+        $sup = DB::table('utils_sup');
+        if (Auth::user()->internalRole->uptd) {
+            $sup = $sup->where('uptd_id', $uptd_id);
+        }
+        $sup = $sup->get();
+
+
+        return view('admin.input_data.rumija_inventarisasi.insert', compact('action', 'inventaris', 'uptd', 'ruas_jalan', 'category', 'sup'));
     }
     public function get_category()
     {

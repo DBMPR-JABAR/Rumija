@@ -79,7 +79,7 @@
                                 <td style="min-width: 75px">
                                     <div class="btn-group" role="group" data-placement="top" title=""
                                         data-original-title=".btn-xlg">
-                                        <a class="d-inline-block" href="{{ route('rumija.inventarisasi.kategori.edit', $data->id) }}"><button
+                                        <a class="d-inline-block" href="{{ route('rumija.inventarisasi.edit', $data->id) }}"><button
                                                 class="mr-1 btn btn-primary btn-sm waves-effect waves-light"
                                                 data-toggle="tooltip" title="Edit">
                                                 <i class="icofont icofont-pencil"></i></button></a>
