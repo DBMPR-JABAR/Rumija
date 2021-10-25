@@ -52,7 +52,7 @@
             <div class="pb-5 pl-5 pr-5 card-block">
 
                 @if ($action == 'store')
-                <form action="{{ route('rumija.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('rumija.inventarisasi.store') }}" method="post" enctype="multipart/form-data">
                     @else
                     <form action="{{ route('rumija.update', $inventaris->id) }}" method="post"
                         enctype="multipart/form-data">
@@ -61,8 +61,8 @@
                         @csrf
                         
                         <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Kategori</label>
-                            <div class="col-md-8">
+                            <label class="col-md-2 col-form-label">Kategori</label>
+                            <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <select class="form-control searchableField" id="rumija_inventarisasi_kategori_id" name="rumija_inventarisasi_kategori_id"
@@ -77,91 +77,71 @@
                                 </div>
                             </div>
                         </div>
-                        <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">UPTD</label>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <select class="form-control" name="uptd"
-                                            required>
-                                            @foreach ($uptd as $item)
-                                            <option value="{{ $item->id }}" id="{{ $item->id }}">
-                                                {{ $item->nama }}</option>
+                        @if (Auth::user()->internalRole->uptd)
+                            <input type="hidden" id="uptd" name="uptd_id" value="{{Auth::user()->internalRole->uptd}}">
+                            @else
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">Uptd</label>
+                                <div class="col-md-10">
+                                    <select class="form-control searchableField" id="uptd" name="uptd_id" onchange="ubahOption()" required>
+                                        <option>Pilih UPTD</option>
+                                        @foreach ($input_uptd_lists as $data)
+                                        <option value="{{$data->id}}">{{$data->nama}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            @endif
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">SUP</label>
+                                <div class="col-md-10">
+                                    <select class="form-control searchableField" id="sup" name="sup_id" onchange="ubahOption1()" required >
+                                        @if (Auth::user()->internalRole->uptd)
+                                        @foreach ($sup as $data)
+                                        <option value="{{$data->kd_sup}}" @if(Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{$data->name}}</option>
+                                        @endforeach
+                                        @else
+                                        <option>-</option>
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">Ruas Jalan</label>
+                                <div class="col-md-10">
+                                    <select class="form-control searchableField" id="ruas_jalan" name="id_ruas_jalan" required>
+                                        @if (Auth::user()->internalRole->uptd)
+                                            @foreach ($input_ruas_jalan as $data)
+                                                <option value="{{$data->id_ruas_jalan}}">{{$data->nama_ruas_jalan}}</option>
                                             @endforeach
-                                        </select>
-                                    </div>
+                                        @else
+                                            <option>-</option>
+                                        @endif
+                                    </select>
                                 </div>
                             </div>
-                        </div>
                         <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Ruas Jalan</label>
-                            <div class="col-md-8">
+                            <label class="col-md-2 col-form-label">Lokasi</label>
+                            <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <select class="form-control searchableField" name="id_ruas_jalan" required>
-                                            <option>Pilih Ruas Jalan</option>
-                                            @foreach ($ruas_jalan as $data)
-                                            <option value="{{ $data->id_ruas_jalan }}" @isset($inventaris)
-                                                {{ $inventaris->ruas_jalan == $data->nama_ruas_jalan ? 'selected' : '' }}
-                                                @endisset>
-                                                {{ $data->nama_ruas_jalan }}</option>
-                                            @endforeach
-                                        </select>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <input name="kode_lokasi" value="{{@$inventaris->lokasi}}" type="text" placeholder="KM.CN" class="form-control" required>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input name="lokasi" value="{{@$inventaris->lokasi}}" type="text" placeholder="56+600 - 56+700" class="form-control" required>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Lokasi</label>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <input name="lokasi" value="{{@$inventaris->lokasi}}" type="text" placeholder="KM.CN 56+600 - 56+700"
-                                            class="form-control" required>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Luas (m<sup>2</sup>)</label>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <input pattern="([0-9]+.{0,1}[0-9]*,{0,1})*[0-9]" required name="luas"
-                                            value="{{@$inventaris->luas}}" type="number" class="form-control" min="0"
-                                            step="0.01">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
 
                         <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Jenis Penggunaan</label>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <input name="jenis" value="{{@$inventaris->jenis_penggunaan}}"
-                                            type="text" class="form-control" required>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Foto 1</label>
-                            <div class="col-md-5">
-                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block"
-                                    id="foto_preview" src="{{ url('storage/' . @$inventaris->foto) }}" alt="">
-                            </div>
-                            <div class="col-md-5">
-                                <input id="foto" name="foto" type="file" accept="image/*" class="form-control">
-                            </div>
-                        </div> --}}
-                       
-
-                        <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Koordinat X</label>
-                            <div class="col-md-8">
+                            <label class="col-md-2 col-form-label">Koordinat X</label>
+                            <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <input name="lat" id="lat" type="text" class="form-control formatLatLong"
@@ -172,8 +152,8 @@
                         </div>
 
                         <div class=" form-group row">
-                            <label class="col-md-4 col-form-label">Koordinat Y</label>
-                            <div class="col-md-8">
+                            <label class="col-md-2 col-form-label">Koordinat Y</label>
+                            <div class="col-md-10">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <input name="lng" id="long" type="text" class="form-control formatLatLong"
@@ -184,7 +164,138 @@
                         </div>
 
                         <div id="mapLatLong" class="mb-2 full-map" style="height: 300px; width: 100%"></div>
-
+                        <div class=" form-group row">
+                            <label class="col-md-2 col-form-label">Jenis Pohon</label>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input name="name" value="{{@$inventaris->name}}" type="text" placeholder="" class="form-control">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" form-group row">
+                            {{-- <label class="col-md-2 col-form-label">Luas (m<sup>2</sup>)</label> --}}
+                            <label class="col-md-2 col-form-label">Jumlah</label>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="jumlah"
+                                            value="{{@$inventaris->jumlah}}" type="number" class="form-control" min="0"
+                                            step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" form-group row">
+                            {{-- <label class="col-md-2 col-form-label">Luas (m<sup>2</sup>)</label> --}}
+                            <label class="col-md-2 col-form-label">Panjang</label>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="panjang"
+                                            value="{{@$inventaris->panjang}}" type="number" class="form-control" min="0"
+                                            step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" form-group row">
+                            {{-- <label class="col-md-2 col-form-label">Luas (m<sup>2</sup>)</label> --}}
+                            <label class="col-md-2 col-form-label">Lebar</label>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="lebar"
+                                            value="{{@$inventaris->lebar}}" type="number" class="form-control" min="0"
+                                            step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" form-group row">
+                            {{-- <label class="col-md-2 col-form-label">Luas (m<sup>2</sup>)</label> --}}
+                            <label class="col-md-2 col-form-label">Tinggi</label>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="tinggi"
+                                            value="{{@$inventaris->tinggi}}" type="number" class="form-control" min="0"
+                                            step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" form-group row">
+                            {{-- <label class="col-md-2 col-form-label">Luas (m<sup>2</sup>)</label> --}}
+                            <label class="col-md-2 col-form-label">Diameter</label>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input pattern="([0-9]+,{0,1}[0-9]*,{0,1})*[0-9]" name="diameter"
+                                            value="{{@$inventaris->diameter}}" type="number" class="form-control" min="0"
+                                            step="0.01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" form-group row">
+                            <label class="col-md-2 col-form-label">Kontruksi</label>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input name="kontruksi" value="{{@$inventaris->kontruksi}}" type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class=" form-group row">
+                            <label class="col-md-2 col-form-label">Posisi</label>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select class="form-control searchableField" name="posisi" >
+                                            <option value="">Pilih Posisi</option>
+                                            <option value="Kanan" @if(Auth::user()->sup_id == 'Kanan') selected @endif>Kanan</option>
+                                            <option value="Kiri" @if(Auth::user()->sup_id == 'Kiri') selected @endif>Kiri</option>
+                                           
+                                        </select>    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Foto 1</label>
+                            <div class="col-md-5">
+                                <img style="min-height: 40px" class="mx-auto rounded img-thumbnail d-block"
+                                    id="foto_preview" src="{{ url('storage/' . @$inventaris->foto) }}" alt="">
+                            </div>
+                            <div class="col-md-5">
+                                <input id="foto" name="foto" type="file" accept="image/*" class="form-control">
+                            </div>
+                        </div> --}}
+                        <div class=" form-group row">
+                            <label class="col-md-2 col-form-label">Desa</label>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input name="desa" value="{{@$inventaris->desa}}" type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" form-group row">
+                            <label class="col-md-2 col-form-label">Keterangan</label>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input name="keterangan" value="{{@$inventaris->keterangan}}" type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class=" form-group row">
                             <a href="{{ route('rumija.index') }}"><button type="button"
                                     class="btn btn-default waves-effect">Batal</button></a>
@@ -326,5 +437,41 @@
             });
         });
 
+
+        function ubahOption() {
+
+        //untuk select SUP
+        id = document.getElementById("uptd").value
+        url = "{{ url('admin/master-data/ruas-jalan/getSUP') }}"
+        id_select = '#sup'
+        text = 'Pilih SUP'
+        option = 'name'
+        id_supp = 'kd_sup'
+
+        setDataSelect(id, url, id_select, text, id_supp, option)
+
+        //untuk select Ruas
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+        id_ruass = 'id_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, id_ruass, option)
+        }
+        function ubahOption1() {
+
+        //untuk select SUP
+        id = document.getElementById("sup").value
+
+        //untuk select Ruas
+        url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalanBySup') }}"
+        id_select = '#ruas_jalan'
+        text = 'Pilih Ruas Jalan'
+        option = 'nama_ruas_jalan'
+        id_ruass = 'id_ruas_jalan'
+
+        setDataSelect(id, url, id_select, text, id_ruass, option)
+        }
 </script>
 @endsection

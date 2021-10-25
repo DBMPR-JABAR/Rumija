@@ -98,21 +98,21 @@
         </ul>
       @endif
       <ul class="pcoded-item pcoded-left-item">
-        <li class="pcoded-hasmenu {{ Request::segment(2) == 'input-data' ? 'pcoded-trigger active' : '' }}">
+        <li class="pcoded-hasmenu {{ Request::segment(2) == 'inventarisasi' ? 'pcoded-trigger active' : '' }}">
           <a href="javascript:void(0)" class="waves-effect waves-dark">
             <span class="pcoded-micon"><i class="feather icon-clipboard"></i></span>
             <span class="pcoded-mtext">Inventarisasi</span>
           </a>
           <ul class="pcoded-submenu">
             @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))
-              <li class="{{ Request::segment(4) == 'rumija' ? 'active' : '' }}">
+              <li class="@if(Request::segment(3) == 'list' || Request::segment(3) == 'create') active @endif">
                 <a href="{{ route('rumija.inventarisasi.index') }}" class="waves-effect waves-dark">
                   <span class="pcoded-mtext">Data</span>
                 </a>
               </li>
             @endif
             @if (hasAccess(Auth::user()->internal_role_id, 'Permohonan Rumija', 'View'))
-              <li class="{{ Request::segment(4) == 'permohonan_rumija' ? 'active' : '' }}">
+              <li class="{{ Request::segment(3) == 'kategori' ? 'active' : '' }}">
                 <a href="{{ route('rumija.inventarisasi.kategori.index') }}"
                   class="waves-effect waves-dark">
                   <span class="pcoded-mtext">Kategori</span>
