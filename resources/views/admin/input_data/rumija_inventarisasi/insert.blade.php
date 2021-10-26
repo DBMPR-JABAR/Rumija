@@ -54,7 +54,7 @@
                 @if ($action == 'store')
                 <form action="{{ route('rumija.inventarisasi.store') }}" method="post" enctype="multipart/form-data">
                     @else
-                    <form action="{{ route('rumija.update', $inventaris->id) }}" method="post"
+                    <form action="{{ route('rumija.inventarisasi.update', $inventaris->id) }}" method="post"
                         enctype="multipart/form-data">
                         @method('PUT')
                         @endif

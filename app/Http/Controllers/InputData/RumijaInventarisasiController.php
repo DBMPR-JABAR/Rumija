@@ -87,14 +87,14 @@ class RumijaInventarisasiController extends Controller
         
         $inventarisasi = Inventarisasi::create($temp);
         $inventarisasi->detail()->create($detail);
-        if($category){
+        if($inventarisasi){
             //redirect dengan pesan sukses
             storeLogActivity(declarLog(1, 'Inventarisasi', $request->name, 1 ));
-            return redirect()->route('rumija.inventarisasi.kategori.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            return redirect()->route('rumija.inventarisasi.index')->with(['success' => 'Data Berhasil Disimpan!']);
         }else{
             //redirect dengan pesan error
             storeLogActivity(declarLog(1, 'Inventarisasi', $request->name ));
-            return redirect()->route('rumija.inventarisasi.kategori.create')->with(['danger' => 'Data Gagal Disimpan!']);
+            return redirect()->route('rumija.inventarisasi.create')->with(['danger' => 'Data Gagal Disimpan!']);
         }
     }
     public function edit($id)
@@ -120,6 +120,76 @@ class RumijaInventarisasiController extends Controller
 
 
         return view('admin.input_data.rumija_inventarisasi.insert', compact('action', 'inventaris', 'uptd', 'ruas_jalan', 'category', 'sup'));
+    }
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            
+            'rumija_inventarisasi_kategori_id' => 'required',
+            'uptd_id' => 'required',
+            'kd_sup' => 'required',
+            'id_ruas_jalan' => 'required',
+            'kode_lokasi' => 'required',
+            'lokasi' => 'required',
+            'lat' => 'required',
+            'lng' => 'required',
+            'name' => '',
+            'jumlah' => '',
+            'panjang' => '',
+            'lebar' => '',
+            'tinggi' => '',
+            'diameter' => '',
+            'kontruksi' => '',
+            'posisi' => '',
+            'desa' => '',
+            'keterangan' => '',
+
+        ]);
+        if ($validator->fails()) {
+            $color = "danger";
+            $msg =  $validator->errors();
+            // Input Log Activity User
+            storeLogActivity(declarLog(2, 'Inventarisasi', $request->name ));
+            return back()->with(compact('color', 'msg'));
+        }
+        // dd(Str::slug($request->name, '-'));
+        $temp = [
+            'rumija_inventarisasi_kategori_id' => $request->rumija_inventarisasi_kategori_id,
+            'uptd_id' => $request->uptd_id,
+            'kd_sup' => $request->kd_sup,
+            'id_ruas_jalan' => $request->id_ruas_jalan,
+            'kode_lokasi' => $request->kode_lokasi,
+            'lokasi' => $request->lokasi,
+            'lat' => $request->lat,
+            'lng' => $request->lng,
+            
+        ];
+        $detail =[
+            'name' => $request->name,
+            'jumlah' => $request->jumlah,
+            'panjang' => $request->panjang,
+            'lebar' => $request->lebar,
+            'tinggi' => $request->tinggi,
+            'diameter' => $request->diameter,
+            'kontruksi' => $request->kontruksi,
+            'posisi' => $request->posisi,
+            'desa' => $request->desa,
+            'keterangan' => $request->keterangan,
+        ];
+        
+        $inventarisasi = Inventarisasi::findOrFail($id);
+        
+        $inventarisasi->update($temp);
+        $inventarisasi->detail->update($detail);
+        if($inventarisasi){
+            //redirect dengan pesan sukses
+            storeLogActivity(declarLog(2, 'Inventarisasi', $request->name, 1 ));
+            return redirect()->route('rumija.inventarisasi.index')->with(['success' => 'Data Berhasil Diperbaharui!']);
+        }else{
+            //redirect dengan pesan error
+            storeLogActivity(declarLog(2, 'Inventarisasi', $request->name ));
+            return redirect()->route('rumija.inventarisasi.edit',$id)->with(['danger' => 'Data Gagal Diperbaharui!']);
+        }
     }
     public function get_category()
     {
