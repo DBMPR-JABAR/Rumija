@@ -180,7 +180,8 @@ class RumijaInventarisasiController extends Controller
         $inventarisasi = Inventarisasi::findOrFail($id);
         
         $inventarisasi->update($temp);
-        $inventarisasi->detail->update($detail);
+        // dd($inventarisasi);
+        $inventarisasi->detail()->updateOrCreate($detail);
         if($inventarisasi){
             //redirect dengan pesan sukses
             storeLogActivity(declarLog(2, 'Inventarisasi', $request->name, 1 ));
@@ -193,9 +194,10 @@ class RumijaInventarisasiController extends Controller
     }
     public function destroy($id)
     {
-        $inventarisasi = DB::table('rumija_inventarisasi')->findOrFail('id', $id);
+        $inventarisasi = Inventarisasi::findOrFail($id);
+        // dd($inventarisasi);
         storeLogActivity(declarLog(3, 'Inventarisasi', $inventarisasi->kategori_inventarisasi->name,1 ));
-        $inventarisasi->detail->delete();
+        $inventarisasi->detail()->delete();
         $inventarisasi->delete();
         $color = "success";
         $msg = "Berhasil Memnghapus Data Inventarisasi";
