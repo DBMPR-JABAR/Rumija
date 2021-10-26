@@ -111,13 +111,13 @@
                 </a>
               </li>
             @endif
-            @if (hasAccess(Auth::user()->internal_role_id, 'Permohonan Rumija', 'View'))
+            {{-- @if (hasAccess(Auth::user()->internal_role_id, 'Permohonan Rumija', 'View'))
               <li class="{{ Request::segment(3) == 'kategori' ? 'active' : '' }}">
                 <a href="{{ route('rumija.inventarisasi.kategori.index') }}" class="waves-effect waves-dark">
                   <span class="pcoded-mtext">Kategori</span>
                 </a>
               </li>
-            @endif
+            @endif --}}
             @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))
               <li class="@if (Request::segment(3) == 'report') active @endif">
                 <a href="{{ route('rumija.inventarisasi.report.index') }}" class="waves-effect waves-dark">

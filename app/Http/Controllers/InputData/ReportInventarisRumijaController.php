@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\InputData;
 
 use App\Http\Controllers\Controller;
+use App\Transactional\RumijaInventarisasi;
+use App\Transactional\RumijaInventarisasiKategori;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -20,7 +22,6 @@ class ReportInventarisRumijaController extends Controller
     public function download(Request $request)
     {
         $data = $request->all();
-        // dd($data);
         $my_template = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template/inventaris_jalan_jembatan.docx'));
 
         $ur = '-';
@@ -49,10 +50,14 @@ class ReportInventarisRumijaController extends Controller
         }
 
         $ruas_jalan_split = "";
+        $panjang_lokasi = 0;
+        $ruas_jalan_id = [];
         foreach ($request->id_ruas_jalan as $id) {
             $id_split = explode('___', $id);
             if ($ruas_jalan_split !== "") $ruas_jalan_split = $ruas_jalan_split . '; ' . $id_split[1];
             else  $ruas_jalan_split = $ruas_jalan_split . $id_split[1];
+            $panjang_lokasi += $id_split[2];
+            array_push($ruas_jalan_id, $id_split[0]);
         }
 
         $uptd = DB::table('landing_uptd')->where('id', $request->uptd_id)->first();
@@ -63,8 +68,128 @@ class ReportInventarisRumijaController extends Controller
         $my_template->setValue('ruas_jalan_split', strtoupper($ruas_jalan_split));
         $my_template->setValue('sppjj_nama', strtoupper($sup->name));
         $my_template->setValue('uptd_lokasi', $uptd->nama);
+        $my_template->setValue('lokasi_panjang', $panjang_lokasi);
         $my_template->setValue('tahun', $currentYear);
         $path = 'inventaris_jalan_jembatan/' . uniqid('report_inventarisasi_', true)  . '.docx';
+
+        $inventaris = DB::table('rumija_inventarisasi')->whereYear('rumija_inventarisasi.created_at', date("Y"))
+            ->whereIn('rumija_inventarisasi.id_ruas_jalan', $ruas_jalan_id)
+            ->leftJoin('rumija_inventarisasi_detail', 'rumija_inventarisasi_detail.rumija_inventarisasi_id', 'rumija_inventarisasi.id')
+            ->get();
+
+        $LOKASI_JEMBATAN_DATA = (object)['count' => 0, 'data' => []];
+        $GORONG_GORONG = (object)['count' => 0, 'data' => []];
+        $TPT = (object)['count' => 0, 'data' => []];
+        $DATA_POHON = (object)['count' => 0, 'data' => []];
+        $DATA_PATOK_PENGARAH_HM_KM = (object)['count' => 0, 'data' => []];
+        $SALURAN = (object)['count' => 0, 'data' => []];
+        $BAHU_JALAN = (object)['count' => 0, 'data' => []];
+
+        foreach ($inventaris as $data) {
+            switch ($data->rumija_inventarisasi_kategori_id) {
+                case 1: {
+                        $LOKASI_JEMBATAN_DATA->count += 1;
+                        $mapData = [
+                            'a_no' => $LOKASI_JEMBATAN_DATA->count,
+                            'a_nama' => $data->name,
+                            'a_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
+                            'a_panjang' => $data->panjang,
+                            'a_kontruksi' => $data->kontruksi,
+                            'a_desa' => $data->desa,
+                            'a_keterangan' => $data->keterangan
+                        ];
+                        array_push($LOKASI_JEMBATAN_DATA->data, $mapData);
+                        break;
+                    }
+                case 2: {
+                        $GORONG_GORONG->count += 1;
+                        $mapData = [
+                            'b_no' => $GORONG_GORONG->count,
+                            'b_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
+                            'b_desa' => $data->desa,
+                            'b_keterangan' => $data->keterangan
+                        ];
+                        array_push($GORONG_GORONG->data, $mapData);
+                        break;
+                    }
+                case 3: {
+                        $TPT->count += 1;
+                        $mapData = [
+                            'c_no' => $GORONG_GORONG->count,
+                            'c_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
+                            'c_ka_ki' => $data->posisi,
+                            'c_dp' => $data->panjang,
+                            'c_dl' => $data->lebar,
+                            'c_dt' => $data->tinggi,
+                            'c_keterangan' => $data->keterangan
+                        ];
+                        array_push($TPT->data, $mapData);
+                        break;
+                    }
+                case 4: {
+                        $DATA_POHON->count += 1;
+                        $mapData = [
+                            'd_no' => $DATA_POHON->count,
+                            'd_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
+                            'd_ka_ki' => $data->posisi,
+                            'd_keterangan' => $data->keterangan,
+                            'd_jenis_pohon' => $data->jenis,
+                            'd_jumlah' => $data->jumlah,
+                            'd_diameter' => $data->diameter,
+                        ];
+                        array_push($DATA_POHON->data, $mapData);
+                        break;
+                    }
+                case 5: {
+                        $DATA_PATOK_PENGARAH_HM_KM->count += 1;
+                        $mapData = [
+                            'e_no' => $DATA_PATOK_PENGARAH_HM_KM->count,
+                            'e_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
+                            'e_ka_ki' => $data->posisi,
+                            'e_keterangan' => $data->keterangan,
+                            'e_jumlah' => $data->jumlah
+                        ];
+                        array_push($DATA_PATOK_PENGARAH_HM_KM->data, $mapData);
+                        break;
+                    }
+                case 6: {
+                        $SALURAN->count += 1;
+                        $mapData = [
+                            'f_no' => $SALURAN->count,
+                            'f_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
+                            'f_ka_ki' => $data->posisi,
+                            'f_keterangan' => $data->keterangan,
+                            'f_dp' => $data->panjang,
+                            'f_dl' => $data->lebar,
+                            'f_dt' => $data->tinggi,
+                        ];
+                        array_push($SALURAN->data, $mapData);
+                        break;
+                    }
+                case 7: {
+                        $BAHU_JALAN->count += 1;
+                        $mapData = [
+                            'g_no' => $BAHU_JALAN->count,
+                            'g_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
+                            'g_ka_ki' => $data->posisi,
+                            'g_keterangan' => $data->keterangan,
+                            'g_lebar' => $data->lebar,
+                            'g_panjang' => $data->panjang,
+                        ];
+                        array_push($BAHU_JALAN->data, $mapData);
+                        break;
+                    }
+            }
+        }
+
+        $my_template->cloneRowAndSetValues('a_no', $LOKASI_JEMBATAN_DATA->data);
+        $my_template->cloneRowAndSetValues('b_no', $GORONG_GORONG->data);
+        $my_template->cloneRowAndSetValues('c_no', $TPT->data);
+        $my_template->cloneRowAndSetValues('d_no', $DATA_POHON->data);
+        $my_template->cloneRowAndSetValues('e_no', $DATA_PATOK_PENGARAH_HM_KM->data);
+        $my_template->cloneRowAndSetValues('f_no', $SALURAN->data);
+        $my_template->cloneRowAndSetValues('g_no', $BAHU_JALAN->data);
+
         try {
             $my_template->saveAs(storage_path($path));
         } catch (Exception $e) {
@@ -74,17 +199,5 @@ class ReportInventarisRumijaController extends Controller
         }
 
         return response()->download(storage_path($path));
-    }
-
-    public function getTemplateData($data)
-    {
-        $KODE_KM = 'kode_km';
-        $LOKASI_JEMBATAN = ['a_no', 'a_nama', 'a_lokasi', 'a_panjang', 'a_kontruksi', 'a_desa', 'a_keterangan'];
-        $GORONG_GORONG = ['b_no', 'b_lokasi', 'b_desa', 'b_keterangan'];
-        $TPT = ['c_no', 'c_lokasi_awal', 'c_lokasi_akhir', 'c_ka_ki', 'c_dp', 'c_dl', 'c_dt', 'c_keterangan'];
-        $DATA_POHON = ['d_no', 'd_lokasi_awal', 'd_lokasi_akhir', 'd_jenis_pohon', 'd_jumlah', 'd_ka_ki', 'd_diameter', 'd_keterangan'];
-        $DATA_PATOK_PENGARAH_HM_KM = ['e_no', 'e_lokasi_awal', 'e_lokasi_akhir', 'e_jumlah', 'e_ka_ki', 'e_keterangan}'];
-        $SALURAN = ['f_no', 'f_lokasi_awal', 'f_lokasi_akhir', 'f_ka_ki', 'f_dp', 'f_dl', 'f_dt', 'f_keterangan'];
-        $BAHU_JALAN = ['g_no', 'g_lokasi_awal', 'g_lokasi_akhir', 'g_lebar', 'g_panjang', 'g_ka_ki', 'g_keterangan'];
     }
 }

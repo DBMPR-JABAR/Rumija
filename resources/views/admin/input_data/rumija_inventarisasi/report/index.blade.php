@@ -114,12 +114,12 @@
       id_supp = 'kd_sup'
       setDataSelect(id, url, id_select, text, id_supp, option)
 
-      url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
-      id_select = '#ruas_jalan'
-      text = 'Pilih Ruas Jalan'
-      option = 'nama_ruas_jalan'
-      id_ruass = 'id_ruas_jalan'
-      setDataSelect(id, url, id_select, text, id_ruass, option)
+      //   url = "{{ url('admin/input-data/kondisi-jalan/getRuasJalan') }}"
+      //   id_select = '#ruas_jalan'
+      //   text = 'Pilih Ruas Jalan'
+      //   option = 'nama_ruas_jalan'
+      //   id_ruass = 'id_ruas_jalan'
+      //   setDataSelect(id, url, id_select, text, id_ruass, option)
     }
 
     function onChangeSUP() {
@@ -144,7 +144,8 @@
           result.responseJSON.forEach(function(item) {
             $(id_select).append(
               $("<option></option>")
-              .attr("value", item['id_ruas_jalan'] + "___" + item['nama_ruas_jalan'].toUpperCase())
+              .attr("value", item['id_ruas_jalan'] + "___" + item['nama_ruas_jalan'].toUpperCase() + "___" + (
+                Number(item['panjang']) / 1000))
               .text(item[option].toUpperCase())
             );
           });
