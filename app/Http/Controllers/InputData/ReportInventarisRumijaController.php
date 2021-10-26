@@ -72,10 +72,7 @@ class ReportInventarisRumijaController extends Controller
         $my_template->setValue('tahun', $currentYear);
         $path = 'inventaris_jalan_jembatan/' . uniqid('report_inventarisasi_', true)  . '.docx';
 
-        $inventaris = DB::table('rumija_inventarisasi')->whereYear('rumija_inventarisasi.created_at', date("Y"))
-            ->whereIn('rumija_inventarisasi.id_ruas_jalan', $ruas_jalan_id)
-            ->leftJoin('rumija_inventarisasi_detail', 'rumija_inventarisasi_detail.rumija_inventarisasi_id', 'rumija_inventarisasi.id')
-            ->get();
+        $inventaris = RumijaInventarisasi::get();
 
         $LOKASI_JEMBATAN_DATA = (object)['count' => 0, 'data' => []];
         $GORONG_GORONG = (object)['count' => 0, 'data' => []];
@@ -91,12 +88,12 @@ class ReportInventarisRumijaController extends Controller
                         $LOKASI_JEMBATAN_DATA->count += 1;
                         $mapData = [
                             'a_no' => $LOKASI_JEMBATAN_DATA->count,
-                            'a_nama' => $data->name,
+                            'a_nama' => $data->detail->name,
                             'a_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
-                            'a_panjang' => $data->panjang,
-                            'a_kontruksi' => $data->kontruksi,
-                            'a_desa' => $data->desa,
-                            'a_keterangan' => $data->keterangan
+                            'a_panjang' => $data->detail->panjang,
+                            'a_kontruksi' => $data->detail->kontruksi,
+                            'a_desa' => $data->detail->desa,
+                            'a_keterangan' => $data->detail->keterangan
                         ];
                         array_push($LOKASI_JEMBATAN_DATA->data, $mapData);
                         break;
@@ -106,8 +103,8 @@ class ReportInventarisRumijaController extends Controller
                         $mapData = [
                             'b_no' => $GORONG_GORONG->count,
                             'b_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
-                            'b_desa' => $data->desa,
-                            'b_keterangan' => $data->keterangan
+                            'b_desa' => $data->detail->desa,
+                            'b_keterangan' => $data->detail->keterangan
                         ];
                         array_push($GORONG_GORONG->data, $mapData);
                         break;
@@ -117,11 +114,11 @@ class ReportInventarisRumijaController extends Controller
                         $mapData = [
                             'c_no' => $GORONG_GORONG->count,
                             'c_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
-                            'c_ka_ki' => $data->posisi,
-                            'c_dp' => $data->panjang,
-                            'c_dl' => $data->lebar,
-                            'c_dt' => $data->tinggi,
-                            'c_keterangan' => $data->keterangan
+                            'c_ka_ki' => $data->detail->posisi,
+                            'c_dp' => $data->detail->panjang,
+                            'c_dl' => $data->detail->lebar,
+                            'c_dt' => $data->detail->tinggi,
+                            'c_keterangan' => $data->detail->keterangan
                         ];
                         array_push($TPT->data, $mapData);
                         break;
@@ -131,11 +128,11 @@ class ReportInventarisRumijaController extends Controller
                         $mapData = [
                             'd_no' => $DATA_POHON->count,
                             'd_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
-                            'd_ka_ki' => $data->posisi,
-                            'd_keterangan' => $data->keterangan,
-                            'd_jenis_pohon' => $data->jenis,
-                            'd_jumlah' => $data->jumlah,
-                            'd_diameter' => $data->diameter,
+                            'd_ka_ki' => $data->detail->posisi,
+                            'd_keterangan' => $data->detail->keterangan,
+                            'd_jenis_pohon' => $data->detail->jenis,
+                            'd_jumlah' => $data->detail->jumlah,
+                            'd_diameter' => $data->detail->diameter,
                         ];
                         array_push($DATA_POHON->data, $mapData);
                         break;
@@ -145,9 +142,9 @@ class ReportInventarisRumijaController extends Controller
                         $mapData = [
                             'e_no' => $DATA_PATOK_PENGARAH_HM_KM->count,
                             'e_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
-                            'e_ka_ki' => $data->posisi,
-                            'e_keterangan' => $data->keterangan,
-                            'e_jumlah' => $data->jumlah
+                            'e_ka_ki' => $data->detail->posisi,
+                            'e_keterangan' => $data->detail->keterangan,
+                            'e_jumlah' => $data->detail->jumlah
                         ];
                         array_push($DATA_PATOK_PENGARAH_HM_KM->data, $mapData);
                         break;
@@ -157,11 +154,11 @@ class ReportInventarisRumijaController extends Controller
                         $mapData = [
                             'f_no' => $SALURAN->count,
                             'f_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
-                            'f_ka_ki' => $data->posisi,
-                            'f_keterangan' => $data->keterangan,
-                            'f_dp' => $data->panjang,
-                            'f_dl' => $data->lebar,
-                            'f_dt' => $data->tinggi,
+                            'f_ka_ki' => $data->detail->posisi,
+                            'f_keterangan' => $data->detail->keterangan,
+                            'f_dp' => $data->detail->panjang,
+                            'f_dl' => $data->detail->lebar,
+                            'f_dt' => $data->detail->tinggi,
                         ];
                         array_push($SALURAN->data, $mapData);
                         break;
@@ -171,10 +168,10 @@ class ReportInventarisRumijaController extends Controller
                         $mapData = [
                             'g_no' => $BAHU_JALAN->count,
                             'g_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
-                            'g_ka_ki' => $data->posisi,
-                            'g_keterangan' => $data->keterangan,
-                            'g_lebar' => $data->lebar,
-                            'g_panjang' => $data->panjang,
+                            'g_ka_ki' => $data->detail->posisi,
+                            'g_keterangan' => $data->detail->keterangan,
+                            'g_lebar' => $data->detail->lebar,
+                            'g_panjang' => $data->detail->panjang,
                         ];
                         array_push($BAHU_JALAN->data, $mapData);
                         break;
