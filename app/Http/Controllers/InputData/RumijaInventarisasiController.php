@@ -191,6 +191,17 @@ class RumijaInventarisasiController extends Controller
             return redirect()->route('rumija.inventarisasi.edit',$id)->with(['danger' => 'Data Gagal Diperbaharui!']);
         }
     }
+    public function destroy($id)
+    {
+        $inventarisasi = DB::table('rumija_inventarisasi')->findOrFail('id', $id);
+        storeLogActivity(declarLog(3, 'Inventarisasi', $inventarisasi->kategori_inventarisasi->name,1 ));
+        $inventarisasi->detail->delete();
+        $inventarisasi->delete();
+        $color = "success";
+        $msg = "Berhasil Memnghapus Data Inventarisasi";
+
+        return redirect(route('rumija.inventarisasi.index'))->with(compact('color', 'msg'));
+    }
     public function get_category()
     {
         $data = DB::table('rumija_inventarisasi_kategori')->get();
