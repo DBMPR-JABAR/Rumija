@@ -112,7 +112,7 @@ class ReportInventarisRumijaController extends Controller
                 case 3: {
                         $TPT->count += 1;
                         $mapData = [
-                            'c_no' => $GORONG_GORONG->count,
+                            'c_no' => $TPT->count,
                             'c_lokasi' => $data->kode_lokasi . ' ' . $data->lokasi,
                             'c_ka_ki' => $data->detail->posisi,
                             'c_dp' => $data->detail->panjang,
