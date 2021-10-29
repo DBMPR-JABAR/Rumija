@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Transactional\RumijaInventarisasi;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReportInventarisRumijaController extends Controller
 {
@@ -78,6 +79,7 @@ class ReportInventarisRumijaController extends Controller
     {
         try {
             $inventaris = RumijaInventarisasi::where('id_ruas_jalan', $ruasJalanId)->get();
+            $ruasJalan = DB::table('master_ruas_jalan')->where('id_ruas_jalan', $ruasJalanId)->first();
 
             $LOKASI_JEMBATAN_DATA = (object)['count' => 0, 'data' => []];
             $GORONG_GORONG = (object)['count' => 0, 'data' => []];
@@ -191,6 +193,7 @@ class ReportInventarisRumijaController extends Controller
             $this->response['data']['saluran'] = $SALURAN->data;
             $this->response['data']['bahu_jalan'] = $BAHU_JALAN->data;
             $this->response['status'] = (count($inventaris) == 0) ? false : true;
+            $this->response['properties'] = $ruasJalan;
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
             $this->response['data']['message'] = 'Internal Error';
