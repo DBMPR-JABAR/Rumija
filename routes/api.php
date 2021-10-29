@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ReportInventarisRumijaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +55,12 @@ Route::prefix('jqr')->group(function () {
         Route::delete('/{id}', 'API\LaporJQRController@destroy');
         Route::get('/cities', "API\LaporJQRController@get_cities");
         Route::get('/jenis_laporan', "API\LaporJQRController@get_jenis_laporan");
+    });
+});
+
+Route::prefix('rumija')->group(function () {
+    Route::prefix('report')->group(function () {
+        Route::get('inventaris/{ruasJalanId}', [ReportInventarisRumijaController::class, 'getReportByRuasJalanId']);
     });
 });
 
