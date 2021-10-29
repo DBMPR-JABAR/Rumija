@@ -12,6 +12,28 @@
         </li>
       </ul>
 
+      @if (hasAccess(Auth::user()->internal_role_id, 'Monitoring', 'View'))
+        <ul class="pcoded-item pcoded-left-item">
+          <li class="pcoded-hasmenu {{ Request::segment(2) == 'monitoring' ? 'pcoded-trigger active' : '' }}">
+            <a href="javascript:void(0)" class="waves-effect waves-dark">
+              <span class="pcoded-micon">
+                <i class="feather icon-monitor"></i>
+              </span>
+              <span class="pcoded-mtext">Monitoring</span>
+            </a>
+            <ul class="pcoded-submenu">
+              @if (hasAccess(Auth::user()->internal_role_id, 'Executive Dashboard', 'View'))
+                <li>
+                  <a href="http://124.81.122.131/systarumija-maps" target="_blank" class="waves-effect waves-dark">
+                    <span class="pcoded-mtext">Executive Dashboard</span>
+                  </a>
+                </li>
+              @endif
+            </ul>
+          </li>
+        </ul>
+      @endif
+
       @if (hasAccess(Auth::user()->internal_role_id, 'Data Master', 'View'))
         <ul class="pcoded-item pcoded-left-item">
           <li class="pcoded-hasmenu {{ Request::segment(2) == 'master-data' ? 'pcoded-trigger active' : '' }}">
@@ -78,7 +100,7 @@
                     @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))
                       <li class="{{ Request::segment(4) == 'rumija' ? 'active' : '' }}">
                         <a href="{{ url('admin/input-data/rumija/rumija') }}" class="waves-effect waves-dark">
-                          <span class="pcoded-mtext">Rumija</span>
+                          <span class="pcoded-mtext">Pemanfaatan Rumija</span>
                         </a>
                       </li>
                     @endif
