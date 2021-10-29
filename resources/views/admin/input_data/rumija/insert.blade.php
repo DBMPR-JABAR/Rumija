@@ -12,7 +12,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Rumija</h4>
+                <h4>Pemanfaatan Rumija</h4>
                 <span>Rumija DBMPR Jabar</span>
             </div>
         </div>
@@ -23,7 +23,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{ url('admin') }}"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="{{ route('rumija.index') }}">Rumija</a>
+                <li class="breadcrumb-item"><a href="{{ route('rumija.index') }}">Pemanfaatan Rumija</a>
                 </li>
                 <li class="breadcrumb-item"><a href="#">Tambah</a> </li>
             </ul>
@@ -38,9 +38,9 @@
         <div class="card">
             <div class="card-header">
                 @if ($action == 'store')
-                <h5>Tambah Data Rumija</h5>
+                <h5>Tambah Data Pemanfaatan Rumija</h5>
                 @else
-                <h5>Perbaharui Data Rumija</h5>
+                <h5>Perbaharui Data Pemanfaatan Rumija</h5>
                 @endif
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">

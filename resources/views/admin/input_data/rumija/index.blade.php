@@ -16,8 +16,8 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Rumija</h4>
-                <span>Data Seluruh Rumija</span>
+                <h4>Pemanfaatan Rumija</h4>
+                <span>Data Seluruh Pemanfaatan Rumija</span>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
                         <i class="feather icon-home"></i>
                     </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Rumija</a></li>
+                <li class="breadcrumb-item"><a href="#!">Pemanfaatan Rumija</a></li>
             </ul>
         </div>
     </div>
@@ -90,7 +90,7 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                <h5>Tabel Rumija</h5>
+                <h5>Tabel Pemanfaatan Rumija</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         {{--
@@ -175,7 +175,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Hapus Data Rumija</h4>
+                    <h4 class="modal-title">Hapus Data Pemanfaatan Rumija</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

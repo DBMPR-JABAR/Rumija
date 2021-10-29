@@ -79,7 +79,7 @@ class RumijaController extends Controller
         }
         DB::table('rumija')->insert($rumija);
         $color = "success";
-        $msg = "Berhasil Menambah Data Rumija";
+        $msg = "Berhasil Menambah Data Pemanfaatan Rumija";
         return redirect(route('rumija.index'))->with(compact('color', 'msg'));
     }
 
@@ -142,7 +142,7 @@ class RumijaController extends Controller
         }
         DB::table('rumija')->where('id', $id)->update($rumija);
         $color = "success";
-        $msg = "Berhasil Memperbaharui Data Rumija";
+        $msg = "Berhasil Memperbaharui Data Pemanfaatan Rumija";
         return redirect(route('rumija.index'))->with(compact('color', 'msg'));
     }
 
@@ -156,7 +156,7 @@ class RumijaController extends Controller
     {
         DB::table('rumija')->where('id', $id)->delete();
         $color = "success";
-        $msg = "Berhasil Memnghapus Data Rumija";
+        $msg = "Berhasil Memnghapus Data Pemanfaatan Rumija";
         return redirect(route('rumija.index'))->with(compact('color', 'msg'));
     }
 }
