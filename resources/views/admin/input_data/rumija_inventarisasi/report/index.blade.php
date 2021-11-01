@@ -45,7 +45,7 @@
         <div class="card-block">
           <form method="GET" action="{{ route('rumija.inventarisasi.report.download') }}">
             @if (Auth::user()->internalRole->uptd)
-              <input type="hidden" id="uptd" name="uptd_id" value="{{ Auth::user()->internalRole->uptd }}">
+              <input type="hidden" id="uptd" name="uptd_id" value="{{ substr(Auth::user()->internalRole->uptd, 4, 1) }}">
             @else
               <div class="form-group row">
                 <label class="col-md-2 col-form-label">UPTD</label>
