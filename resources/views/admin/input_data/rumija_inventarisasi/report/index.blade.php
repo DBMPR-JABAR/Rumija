@@ -64,7 +64,13 @@
               <label class="col-md-2 col-form-label">SUP</label>
               <div class="col-md-4">
                 <select class="form-control searchableField" id="sup" name="sup_id" onchange="onChangeSUP()" required>
+                  @if (Auth::user()->internalRole->uptd)
+                    @foreach ($input_sup as $data)
+                      <option value="{{ $data->kd_sup }}" @if (Auth::user()->sup_id != null && Auth::user()->sup_id == $data->id) selected @endif>{{ $data->name }}</option>
+                    @endforeach
+                  @else
                     <option>-</option>
+                  @endif
                 </select>
               </div>
             </div>
@@ -74,7 +80,8 @@
                 <select class="form-control searchableField" multiple id="ruas_jalan" name="id_ruas_jalan[]" required>
                   @if (Auth::user()->internalRole->uptd)
                     @foreach ($input_ruas_jalan as $data)
-                      <option value="{{ $data->id_ruas_jalan . '___' . strtoupper($data->nama_ruas_jalan) }}">
+                      <option
+                        value="{{ $data->id_ruas_jalan . '___' . strtoupper($data->nama_ruas_jalan) . '___' . (float) $data->panjang / 1000 }}">
                         {{ strtoupper($data->nama_ruas_jalan) }}</option>
                     @endforeach
                   @else
@@ -115,6 +122,11 @@
       //   id_ruass = 'id_ruas_jalan'
       //   setDataSelect(id, url, id_select, text, id_ruass, option)
     }
+
+    $(document).ready(() => {
+      supId = document.getElementById("sup").value
+      supId && onChangeSUP();
+    })
 
     function onChangeSUP() {
       id = document.getElementById("sup").value
