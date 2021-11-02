@@ -140,7 +140,7 @@
                         </div>
                         
 
-                        <div class=" form-group row">
+                        {{-- <div class=" form-group row">
                             <label class="col-md-2 col-form-label">Koordinat X</label>
                             <div class="col-md-10">
                                 <div class="row">
@@ -163,6 +163,48 @@
                                 </div>
                             </div>
                         </div>
+                         --}}
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Latitude Awal</label>
+                            <div class="col-md-10">
+                                <input id="lat0" name="lat" type="text" class="form-control formatLatLong"  placeholder="Contoh : -7.23698000000000000" value="{{@$inventaris->lat}}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Longitude Awal</label>
+                            <div class="col-md-10">
+                                <input id="long0" name="lng" type="text" class="form-control formatLatLong" placeholder="Contoh : 107.90745600000000000" value="{{@$inventaris->lng}}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Latitude Akhir</label>
+                            <div class="col-md-10">
+                                <input id="lat1" name="lat_akhir" type="text" class="form-control formatLatLong" placeholder="Contoh : -7.28653600000000000" value="{{@$inventaris->lat_akhir}}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Longitude Akhir</label>
+                            <div class="col-md-10">
+                                <input id="long1" name="lng_akhir" type="text" class="form-control formatLatLong" placeholder="Contoh : 107.92037600000000000" value="{{@$inventaris->lng_akhir}}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="display: none">
+                            <label class="col-md-2 col-form-label">Latitude Tak Terpakai</label>
+                            <div class="col-md-10">
+                                <input id="lat2" name="" type="text" class="form-control formatLatLong" placeholder="Contoh : -7.33096300000000000">
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="display: none">
+                            <label class="col-md-2 col-form-label">Longitude Tak Terpakai</label>
+                            <div class="col-md-10">
+                                <input id="long2" name="" type="text" class="form-control formatLatLong" placeholder="Contoh : 107.94587100000000000">
+                            </div>
+                        </div>
+
 
                         <div id="mapLatLong" class="mb-2 full-map" style="height: 300px; width: 100%"></div>
                         <div class=" form-group row" id="formNama" style="display: none">
@@ -572,7 +614,7 @@
                 ], function(Map, MapView, Graphic) {
 
                     const map = new Map({
-                        basemap: "hybrid"
+                        basemap: "streets"
                     });
 
                     const view = new MapView({
@@ -581,65 +623,137 @@
                         center: [107.6191, -6.9175],
                         zoom: 8,
                     });
-                    let tempGraphic;
-                    if ($("#lat").val() != '' && $("#long").val() != '') {
-                        var graphic = new Graphic({
-                            geometry:{
-                                type: "point",
-                                longitude: $("#long").val(),
-                                latitude: $("#lat").val()
-                            },
-                            symbol: {
-                                type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
-                                url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
-                                width: "14px",
-                                height: "24px"
-                            }
-                        });
-                        tempGraphic = graphic;
+                    // let tempGraphic;
+                    // if ($("#lat").val() != '' && $("#long").val() != '') {
+                    //     var graphic = new Graphic({
+                    //         geometry:{
+                    //             type: "point",
+                    //             longitude: $("#long").val(),
+                    //             latitude: $("#lat").val()
+                    //         },
+                    //         symbol: {
+                    //             type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                    //             url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                    //             width: "14px",
+                    //             height: "24px"
+                    //         }
+                    //     });
+                    //     tempGraphic = graphic;
 
-                        view.graphics.add(graphic);
-                        }
-                    view.on("click", function(event) {
-                        if ($("#lat").val() != '' && $("#long").val() != '') {
-                            view.graphics.remove(tempGraphic);
-                        }
-                        var graphic = new Graphic({
-                            geometry: event.mapPoint,
-                            symbol: {
-                                type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
-                                url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
-                                width: "14px",
-                                height: "24px"
-                            }
-                        });
-                        tempGraphic = graphic;
-                        $("#lat").val(event.mapPoint.latitude);
-                        $("#long").val(event.mapPoint.longitude);
+                    //     view.graphics.add(graphic);
+                    // }
 
-                        view.graphics.add(graphic);
-                    });
-                    $("#lat, #long").keyup(function() {
-                        if ($("#lat").val() != '' && $("#long").val() != '') {
-                            view.graphics.remove(tempGraphic);
-                        }
-                        var graphic = new Graphic({
-                            geometry: {
-                                type: "point",
-                                longitude: $("#long").val(),
-                                latitude: $("#lat").val()
-                            },
-                            symbol: {
-                                type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
-                                url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
-                                width: "14px",
-                                height: "24px"
-                            }
-                        });
-                        tempGraphic = graphic;
+                    let tempGraphic = [];
+                    
+                    if($("#lat0").val() != '' && $("#long0").val() != ''){
+                        addTitik(0, $("#lat0").val(), $("#long0").val(), "blue");
+                    }
+                    if($("#lat1").val() != '' && $("#long1").val() != ''){
+                        addTitik(1, $("#lat1").val(), $("#long1").val(), "green");
+                    }
+                    if($("#lat2").val() != '' && $("#long2").val() != ''){
+                        addTitik(2, $("#lat2").val(), $("#long2").val(), "red");
+                    }
 
-                        view.graphics.add(graphic);
-                    });
+                    let mouseclick = 0;
+                    view.on("click", function(event){
+                            const lat = event.mapPoint.latitude;
+                            const long = event.mapPoint.longitude;
+
+                            // Genap = Titik Awal
+                            if(mouseclick % 2 == 0){
+                                addTitik(0, lat, long, "blue");
+                                $("#lat0").val(lat);
+                                $("#long0").val(long);
+                            }else if(mouseclick % 2 == 1){
+                                addTitik(1, lat, long, "green");
+                                $("#lat1").val(lat);
+                                $("#long1").val(long);
+                            }else{
+                                addTitik(2, lat, long, "red");
+                                $("#lat2").val(lat);
+                                $("#long2").val(long);
+                            }
+                            mouseclick++;
+                        });
+
+                        $("#lat0, #long0").keyup(function () {
+                            const lat = $("#lat0").val();
+                            const long = $("#long0").val();
+                            addTitik(0, lat, long, "blue");
+                        });
+                        $("#lat1, #long1").keyup(function () {
+                            const lat = $("#lat1").val();
+                            const long = $("#long1").val();
+                            addTitik(1, lat, long, "green");
+                        });
+                        $("#lat2, #long2").keyup(function () {
+                            const lat = $("#lat2").val();
+                            const long = $("#long2").val();
+                            addTitik(2, lat, long, "red");
+                        });
+
+                        function addTitik(point, lat, long, color){
+                            if($("#lat"+point).val() != '' && $("#long"+point).val() != ''){
+                                view.graphics.remove(tempGraphic[point]);
+                            }
+                            var graphic = new Graphic({
+                                geometry: {
+                                    type: "point",
+                                    longitude: long,
+                                    latitude: lat
+                                },
+                                symbol: {
+                                    type: "picture-marker",
+                                    url: `http://esri.github.io/quickstart-map-js/images/${color}-pin.png`,
+                                    width: "14px",
+                                    height: "24px"
+                                }
+                            });
+                            tempGraphic[point] = graphic;
+
+                            view.graphics.add(graphic);
+                        }
+                    // view.on("click", function(event) {
+                    //     if ($("#lat").val() != '' && $("#long").val() != '') {
+                    //         view.graphics.remove(tempGraphic);
+                    //     }
+                    //     var graphic = new Graphic({
+                    //         geometry: event.mapPoint,
+                    //         symbol: {
+                    //             type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                    //             url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                    //             width: "14px",
+                    //             height: "24px"
+                    //         }
+                    //     });
+                    //     tempGraphic = graphic;
+                    //     $("#lat").val(event.mapPoint.latitude);
+                    //     $("#long").val(event.mapPoint.longitude);
+
+                    //     view.graphics.add(graphic);
+                    // });
+                    // $("#lat, #long").keyup(function() {
+                    //     if ($("#lat").val() != '' && $("#long").val() != '') {
+                    //         view.graphics.remove(tempGraphic);
+                    //     }
+                    //     var graphic = new Graphic({
+                    //         geometry: {
+                    //             type: "point",
+                    //             longitude: $("#long").val(),
+                    //             latitude: $("#lat").val()
+                    //         },
+                    //         symbol: {
+                    //             type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                    //             url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                    //             width: "14px",
+                    //             height: "24px"
+                    //         }
+                    //     });
+                    //     tempGraphic = graphic;
+
+                    //     view.graphics.add(graphic);
+                    // });
                 });
             });
         });

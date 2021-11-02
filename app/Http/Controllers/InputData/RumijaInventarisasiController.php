@@ -41,6 +41,8 @@ class RumijaInventarisasiController extends Controller
             'lokasi' => 'required',
             'lat' => 'required',
             'lng' => 'required',
+            'lat_akhir' => '',
+            'lng_akhir' => '',
             'name' => '',
             'jumlah' => '',
             'panjang' => '',
@@ -70,6 +72,8 @@ class RumijaInventarisasiController extends Controller
             'lokasi' => $request->lokasi,
             'lat' => $request->lat,
             'lng' => $request->lng,
+            'lat_akhir' => $request->lat_akhir,
+            'lng_akhir' => $request->lng_akhir,
             
         ];
         $detail =[
@@ -133,6 +137,8 @@ class RumijaInventarisasiController extends Controller
             'lokasi' => 'required',
             'lat' => 'required',
             'lng' => 'required',
+            'lat_akhir' => '',
+            'lng_akhir' => '',
             'name' => '',
             'jumlah' => '',
             'panjang' => '',
@@ -162,6 +168,8 @@ class RumijaInventarisasiController extends Controller
             'lokasi' => $request->lokasi,
             'lat' => $request->lat,
             'lng' => $request->lng,
+            'lat_akhir' => $request->lat_akhir,
+            'lng_akhir' => $request->lng_akhir,
             
         ];
         $detail =[

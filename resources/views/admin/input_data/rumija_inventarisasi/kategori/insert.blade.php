@@ -151,7 +151,7 @@
                 ], function(Map, MapView, Graphic) {
 
                     const map = new Map({
-                        basemap: "hybrid"
+                        basemap: "streets"
                     });
 
                     const view = new MapView({
@@ -178,7 +178,7 @@
                         tempGraphic = graphic;
 
                         view.graphics.add(graphic);
-                        }
+                    }
                     view.on("click", function(event) {
                         if ($("#lat").val() != '' && $("#long").val() != '') {
                             view.graphics.remove(tempGraphic);
