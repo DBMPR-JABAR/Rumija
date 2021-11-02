@@ -182,6 +182,7 @@ Route::get('map/pemeliharaan', 'API\MapDashboardController@getPemeliharaan')->na
 Route::get('map/pembangunan', 'API\MapDashboardController@getPembangunan')->name('api.map.pembangunan');
 Route::get('map/rumija', 'API\MapDashboardController@getRumija')->name('api.map.rumija');
 Route::get('map/bankeu', 'API\MapDashboardController@getBankeu')->name('api.map.bankeu');
+Route::get('map/inventaris-rumija', [ReportInventarisRumijaController::class, 'getReportByRuasJalanAndCategoriesId']);
 
 
 Route::resource('vehicle-counting', 'API\VehicleCountingController');
