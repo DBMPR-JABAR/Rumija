@@ -215,7 +215,7 @@ class ReportInventarisRumijaController extends Controller
             $LOKASI_JEMBATAN_DATA = (object)[
                 'count' => 0,
                 'data' => [],
-                'color' => 'white',
+                'color' => 'gray',
                 'type' => 'marker',
                 'title' => 'JEMBATAN',
                 'icon_url' => 'https://tj.temanjabar.net/assets/images/marker/jembatan.png'
@@ -223,8 +223,8 @@ class ReportInventarisRumijaController extends Controller
             $GORONG_GORONG = (object)[
                 'count' => 0,
                 'data' => [],
-                'color' => 'white',
-                'type' => 'line',
+                'color' => 'dark_gray',
+                'type' => 'marker',
                 'title' => 'GORONG-GORONG',
                 'icon_url' => ''
             ];
@@ -232,14 +232,14 @@ class ReportInventarisRumijaController extends Controller
                 'count' => 0,
                 'data' => [],
                 'color' => 'white',
-                'type' => 'line',
+                'type' => 'marker',
                 'title' => 'TPT',
                 'icon_url' => ''
             ];
             $DATA_POHON = (object)[
                 'count' => 0,
                 'data' => [],
-                'color' => 'white',
+                'color' => 'green',
                 'type' => 'marker',
                 'title' => 'POHON',
                 'icon_url' => ''
@@ -247,7 +247,7 @@ class ReportInventarisRumijaController extends Controller
             $DATA_PATOK_PENGARAH_HM_KM = (object)[
                 'count' => 0,
                 'data' => [],
-                'color' => 'white',
+                'color' => 'yellow',
                 'type' => 'line',
                 'title' => 'PATOK',
                 'icon_url' => ''
@@ -255,7 +255,7 @@ class ReportInventarisRumijaController extends Controller
             $SALURAN = (object)[
                 'count' => 0,
                 'data' => [],
-                'color' => 'white',
+                'color' => 'blue',
                 'type' => 'line',
                 'title' => 'SALURAN',
                 'icon_url' => ''
@@ -263,7 +263,7 @@ class ReportInventarisRumijaController extends Controller
             $BAHU_JALAN = (object)[
                 'count' => 0,
                 'data' => [],
-                'color' => 'white',
+                'color' => 'black',
                 'type' => 'line',
                 'title' => 'BAHU JALAN',
                 'icon_url' => ''
@@ -299,24 +299,24 @@ class ReportInventarisRumijaController extends Controller
                                     <td>' . $data->kode_lokasi . ' ' . $data->lokasi . '</td>
                                     </tr>
                                     <tr>
-                                    <td>Panjang</td>
+                                    <td>Posisi (Kanan/Kiri)</td>
                                     <td>:</td>
-                                    <td>${properties.kab_kota}</td>
+                                    <td>' . $data->detail->posisi . '</td>
                                     </tr>
                                     <tr>
-                                    <td>UPTD</td>
+                                    <td>Kontruksi</td>
                                     <td>:</td>
-                                    <td>${properties.uptd}</td>
+                                    <td>' . $data->detail->kontruksi . '</td>
                                     </tr>
                                     <tr>
-                                    <td>Luas</td>
+                                    <td>Desa</td>
                                     <td>:</td>
-                                    <td>${properties.luas} M<sup>3</sup></td>
+                                    <td>' . $data->detail->desa . '</td>
                                     </tr>
                                     <tr>
-                                    <td>Uraian</td>
+                                    <td>Keterangan</td>
                                     <td>:</td>
-                                    <td>${properties.uraian}</sup></td>
+                                    <td>' . $data->detail->keterangan . '</td>
                                     </tr>
                                     </table>'
                             ];
@@ -334,6 +334,30 @@ class ReportInventarisRumijaController extends Controller
                                 'lng' => $data->lng,
                                 'lat_akhir' => $data->lat_akhir,
                                 'lng_akhir' => $data->lng_akhir,
+                                'popup' => '<div style="max-height:80vh;overflow:auto;">
+                                <p class="mb-0"><b>GORONG-GORONG</b></p>
+                                    <table class="table">
+                                    <tr>
+                                    <td>Lokasi</td>
+                                    <td>:</td>
+                                    <td>' . $data->kode_lokasi . ' ' . $data->lokasi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Posisi (Kanan/Kiri)</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->posisi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Desa</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->desa . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Keterangan</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->keterangan . '</td>
+                                    </tr>
+                                    </table>'
                             ];
                             array_push($GORONG_GORONG->data, $mapData);
                             break;
@@ -352,6 +376,40 @@ class ReportInventarisRumijaController extends Controller
                                 'lng' => $data->lng,
                                 'lat_akhir' => $data->lat_akhir,
                                 'lng_akhir' => $data->lng_akhir,
+                                'popup' => '<div style="max-height:80vh;overflow:auto;">
+                                <p class="mb-0"><b>TPT</b></p>
+                                    <table class="table">
+                                    <tr>
+                                    <td>Lokasi</td>
+                                    <td>:</td>
+                                    <td>' . $data->kode_lokasi . ' ' . $data->lokasi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Posisi (Kanan/Kiri)</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->posisi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Panjang</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->panjang . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Lebar</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->lebar . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Tinggi</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->tinggi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Keterangan</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->keterangan . '</td>
+                                    </tr>
+                                    </table>'
                             ];
                             array_push($TPT->data, $mapData);
                             break;
@@ -370,6 +428,40 @@ class ReportInventarisRumijaController extends Controller
                                 'lng' => $data->lng,
                                 'lat_akhir' => $data->lat_akhir,
                                 'lng_akhir' => $data->lng_akhir,
+                                'popup' => '<div style="max-height:80vh;overflow:auto;">
+                                <p class="mb-0"><b>POHON</b></p>
+                                    <table class="table">
+                                    <tr>
+                                    <td>Lokasi</td>
+                                    <td>:</td>
+                                    <td>' . $data->kode_lokasi . ' ' . $data->lokasi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Posisi (Kanan/Kiri)</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->posisi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Jenis</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->jenis . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Jumlah</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->jumlah . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Diameter (cm)</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->diameter . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Keterangan</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->keterangan . '</td>
+                                    </tr>
+                                    </table>'
                             ];
                             array_push($DATA_POHON->data, $mapData);
                             break;
@@ -386,6 +478,30 @@ class ReportInventarisRumijaController extends Controller
                                 'lng' => $data->lng,
                                 'lat_akhir' => $data->lat_akhir,
                                 'lng_akhir' => $data->lng_akhir,
+                                'popup' => '<div style="max-height:80vh;overflow:auto;">
+                                <p class="mb-0"><b>PATOK</b></p>
+                                    <table class="table">
+                                    <tr>
+                                    <td>Lokasi</td>
+                                    <td>:</td>
+                                    <td>' . $data->kode_lokasi . ' ' . $data->lokasi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Posisi (Kanan/Kiri)</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->posisi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Jumlah</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->jumlah . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Keterangan</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->keterangan . '</td>
+                                    </tr>
+                                    </table>'
                             ];
                             array_push($DATA_PATOK_PENGARAH_HM_KM->data, $mapData);
                             break;
@@ -404,6 +520,40 @@ class ReportInventarisRumijaController extends Controller
                                 'lng' => $data->lng,
                                 'lat_akhir' => $data->lat_akhir,
                                 'lng_akhir' => $data->lng_akhir,
+                                'popup' => '<div style="max-height:80vh;overflow:auto;">
+                                <p class="mb-0"><b>SALURAN</b></p>
+                                    <table class="table">
+                                    <tr>
+                                    <td>Lokasi</td>
+                                    <td>:</td>
+                                    <td>' . $data->kode_lokasi . ' ' . $data->lokasi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Posisi (Kanan/Kiri)</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->posisi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Panjang</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->panjang . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Lebar</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->lebar . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Tinggi</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->tinggi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Keterangan</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->keterangan . '</td>
+                                    </tr>
+                                    </table>'
                             ];
                             array_push($SALURAN->data, $mapData);
                             break;
@@ -421,6 +571,35 @@ class ReportInventarisRumijaController extends Controller
                                 'lng' => $data->lng,
                                 'lat_akhir' => $data->lat_akhir,
                                 'lng_akhir' => $data->lng_akhir,
+                                'popup' => '<div style="max-height:80vh;overflow:auto;">
+                                <p class="mb-0"><b>SALURAN</b></p>
+                                    <table class="table">
+                                    <tr>
+                                    <td>Lokasi</td>
+                                    <td>:</td>
+                                    <td>' . $data->kode_lokasi . ' ' . $data->lokasi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Posisi (Kanan/Kiri)</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->posisi . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Panjang</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->panjang . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Lebar</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->lebar . '</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Keterangan</td>
+                                    <td>:</td>
+                                    <td>' . $data->detail->keterangan . '</td>
+                                    </tr>
+                                    </table>'
                             ];
                             array_push($BAHU_JALAN->data, $mapData);
                             break;
@@ -464,7 +643,7 @@ class ReportInventarisRumijaController extends Controller
             $this->response['properties'] = $ruasJalan;
             return response()->json($this->response, 200);
         } catch (\Exception $th) {
-            $this->response['data']['message'] = 'Internal Error';
+            $this->response['data']['message'] = 'Internal Error' . $th;
             return response()->json($this->response, 500);
         }
     }
