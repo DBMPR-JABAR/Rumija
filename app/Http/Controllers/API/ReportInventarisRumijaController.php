@@ -206,16 +206,21 @@ class ReportInventarisRumijaController extends Controller
         try {
             $inventaris = RumijaInventarisasi::where([
                 ['id_ruas_jalan', $request->ruas_jalan_id],
-            ])->where(function ($query) use ($request) {
-                $query->whereIn('rumija_inventarisasi_kategori_id', $request->categories_id);
-            })
-                ->get();
+            ]);
+
+            if ($request->categories_id) {
+                $inventaris = $inventaris->where(function ($query) use ($request) {
+                    $query->whereIn('rumija_inventarisasi_kategori_id', $request->categories_id);
+                });
+            }
+
+            $inventaris = $inventaris->get();
             $ruasJalan = DB::table('master_ruas_jalan')->where('id_ruas_jalan', $request->ruas_jalan_id)->first();
 
             $LOKASI_JEMBATAN_DATA = (object)[
                 'count' => 0,
                 'data' => [],
-                'color' => 'gray',
+                'color' => '#686C38',
                 'type' => 'marker',
                 'title' => 'JEMBATAN',
                 'icon_url' => 'https://tj.temanjabar.net/assets/images/marker/jembatan.png'
@@ -223,7 +228,7 @@ class ReportInventarisRumijaController extends Controller
             $GORONG_GORONG = (object)[
                 'count' => 0,
                 'data' => [],
-                'color' => 'dark_gray',
+                'color' => '#9B9C8C',
                 'type' => 'marker',
                 'title' => 'GORONG-GORONG',
                 'icon_url' => ''
@@ -231,7 +236,7 @@ class ReportInventarisRumijaController extends Controller
             $TPT = (object)[
                 'count' => 0,
                 'data' => [],
-                'color' => 'white',
+                'color' => '#FFFFFF',
                 'type' => 'marker',
                 'title' => 'TPT',
                 'icon_url' => ''
@@ -239,7 +244,7 @@ class ReportInventarisRumijaController extends Controller
             $DATA_POHON = (object)[
                 'count' => 0,
                 'data' => [],
-                'color' => 'green',
+                'color' => '#00FF00',
                 'type' => 'marker',
                 'title' => 'POHON',
                 'icon_url' => ''
@@ -247,7 +252,7 @@ class ReportInventarisRumijaController extends Controller
             $DATA_PATOK_PENGARAH_HM_KM = (object)[
                 'count' => 0,
                 'data' => [],
-                'color' => 'yellow',
+                'color' => '#F9FF33',
                 'type' => 'line',
                 'title' => 'PATOK',
                 'icon_url' => ''
@@ -255,7 +260,7 @@ class ReportInventarisRumijaController extends Controller
             $SALURAN = (object)[
                 'count' => 0,
                 'data' => [],
-                'color' => 'blue',
+                'color' => '#0000FF',
                 'type' => 'line',
                 'title' => 'SALURAN',
                 'icon_url' => ''
@@ -263,7 +268,7 @@ class ReportInventarisRumijaController extends Controller
             $BAHU_JALAN = (object)[
                 'count' => 0,
                 'data' => [],
-                'color' => 'black',
+                'color' => '#000000',
                 'type' => 'line',
                 'title' => 'BAHU JALAN',
                 'icon_url' => ''
@@ -297,11 +302,6 @@ class ReportInventarisRumijaController extends Controller
                                     <td>Lokasi</td>
                                     <td>:</td>
                                     <td>' . $data->kode_lokasi . ' ' . $data->lokasi . '</td>
-                                    </tr>
-                                    <tr>
-                                    <td>Posisi (Kanan/Kiri)</td>
-                                    <td>:</td>
-                                    <td>' . $data->detail->posisi . '</td>
                                     </tr>
                                     <tr>
                                     <td>Kontruksi</td>
@@ -341,11 +341,6 @@ class ReportInventarisRumijaController extends Controller
                                     <td>Lokasi</td>
                                     <td>:</td>
                                     <td>' . $data->kode_lokasi . ' ' . $data->lokasi . '</td>
-                                    </tr>
-                                    <tr>
-                                    <td>Posisi (Kanan/Kiri)</td>
-                                    <td>:</td>
-                                    <td>' . $data->detail->posisi . '</td>
                                     </tr>
                                     <tr>
                                     <td>Desa</td>
@@ -572,7 +567,7 @@ class ReportInventarisRumijaController extends Controller
                                 'lat_akhir' => $data->lat_akhir,
                                 'lng_akhir' => $data->lng_akhir,
                                 'popup' => '<div style="max-height:80vh;overflow:auto;">
-                                <p class="mb-0"><b>SALURAN</b></p>
+                                <p class="mb-0"><b>BAHU JALAN</b></p>
                                     <table class="table">
                                     <tr>
                                     <td>Lokasi</td>
@@ -607,38 +602,49 @@ class ReportInventarisRumijaController extends Controller
                 }
             }
 
-            foreach ($request->categories_id as $category) {
-                switch ($category) {
-                    case 1: {
-                            $this->response['data']['jembatan'] = $LOKASI_JEMBATAN_DATA;
-                            break;
-                        }
-                    case 2: {
-                            $this->response['data']['gorong_gorong'] = $GORONG_GORONG;
-                            break;
-                        }
-                    case 3: {
-                            $this->response['data']['tpt'] = $TPT;
-                            break;
-                        }
-                    case 4: {
-                            $this->response['data']['pohon'] = $DATA_POHON;
-                            break;
-                        }
-                    case 5: {
-                            $this->response['data']['patok_pengarah'] = $DATA_PATOK_PENGARAH_HM_KM;
-                            break;
-                        }
-                    case 6: {
-                            $this->response['data']['saluran'] = $SALURAN;
-                            break;
-                        }
-                    case 7: {
-                            $this->response['data']['bahu_jalan'] = $BAHU_JALAN;
-                            break;
-                        }
+            if ($request->categories_id) {
+                foreach ($request->categories_id as $category) {
+                    switch ($category) {
+                        case 1: {
+                                $this->response['data']['jembatan'] = $LOKASI_JEMBATAN_DATA;
+                                break;
+                            }
+                        case 2: {
+                                $this->response['data']['gorong_gorong'] = $GORONG_GORONG;
+                                break;
+                            }
+                        case 3: {
+                                $this->response['data']['tpt'] = $TPT;
+                                break;
+                            }
+                        case 4: {
+                                $this->response['data']['pohon'] = $DATA_POHON;
+                                break;
+                            }
+                        case 5: {
+                                $this->response['data']['patok_pengarah'] = $DATA_PATOK_PENGARAH_HM_KM;
+                                break;
+                            }
+                        case 6: {
+                                $this->response['data']['saluran'] = $SALURAN;
+                                break;
+                            }
+                        case 7: {
+                                $this->response['data']['bahu_jalan'] = $BAHU_JALAN;
+                                break;
+                            }
+                    }
                 }
+            } else {
+                $this->response['data']['gorong_gorong'] = $GORONG_GORONG;
+                $this->response['data']['tpt'] = $TPT;
+                $this->response['data']['pohon'] = $DATA_POHON;
+                $this->response['data']['patok_pengarah'] = $DATA_PATOK_PENGARAH_HM_KM;
+                $this->response['data']['saluran'] = $SALURAN;
+                $this->response['data']['bahu_jalan'] = $BAHU_JALAN;
+                $this->response['data']['jembatan'] = $LOKASI_JEMBATAN_DATA;
             }
+
             $this->response['status'] = (count($inventaris) == 0) ? false : true;
             $this->response['properties'] = $ruasJalan;
             return response()->json($this->response, 200);
