@@ -2,17 +2,17 @@
 @section('body')
 
 <!-- sign-in -->
-<section id="sign-in" class="bglight position-relative padding">
-    <div class="container">
+<section id="sign-in" class="bglight position-relative padding bg-white">
+    <div class="container bg-white">
         <div class="row">
             <div class="col-lg-6 col-md-6 rp-0">
                 <div class="image login-image h-100">
-                    <img src="{{ asset('assets/images/slider/hero01.jpg') }}" alt="" class="w-100 h-100"
+                    <img src="{{ asset('assets/images/login.jpg') }}" alt="" class="w-100 h-100"
                         style="object-fit: cover;">
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12 whitebox">
-                <div class="widget logincontainer">
+            <div class="col-md-6 col-sm-12 whitebox h-100">
+                <div class="pt-3" style="min-hight:100%">
                     <h3 class="darkcolor bottom35">Login </h3>
                     @if (Session::has('msg'))
                     <div class="row">
