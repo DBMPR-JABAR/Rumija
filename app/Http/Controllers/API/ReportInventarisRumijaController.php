@@ -238,8 +238,8 @@ class ReportInventarisRumijaController extends Controller
                 'data' => [],
                 'color' => '#FFFFFF',
                 'type' => 'marker',
-                'title' => 'TPT',
-                'icon_url' => ''
+                'title' => 'TEMBOK PENAHAN TANAH',
+                'icon_url' => asset('assets/images/marker/inventaris/tembok-penahan-tanah.png')
             ];
             $DATA_POHON = (object)[
                 'count' => 0,
