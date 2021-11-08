@@ -63,6 +63,9 @@
                         <thead>
                             <tr>
                                 <th style="width: 5%">No</th>
+                                @if ( Auth::user()->id == 1)
+                                <th>id Data</th>
+                                @endif
                                 <th>Kategori</th>
                                 <th>Lokasi</th>
                                 <th>Ruas</th>
@@ -74,6 +77,9 @@
                             @foreach ($data as $data)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
+                                @if ( Auth::user()->id == 1)
+                                <td>{{ @$data->id }}</td>
+                                @endif
                                 <td>{{ @$data->kategori_inventarisasi->name }}</td>
                                 <td>{{ @$data->kode_lokasi }} {!! @$data->lokasi !!}</td>
                                 <td>{{ @$data->ruas->nama_ruas_jalan }}</td>
