@@ -308,8 +308,8 @@
             <div class="col-md-10">
               <select id="posisi" class="form-control " name="posisi" style="min-width: 100%">
                 <option value="">Pilih Posisi</option>
-                <option value="Kanan" @if (@$inventaris->detail->posisi == 'Kanan') selected @endif>Kanan</option>
-                <option value="Kiri" @if (@$inventaris->detail->posisi == 'Kiri') selected @endif>Kiri</option>
+                <option value="Ka" @if (@$inventaris->detail->posisi == 'Ka') selected @endif>Kanan</option>
+                <option value="Ki" @if (@$inventaris->detail->posisi == 'Ki') selected @endif>Kiri</option>
 
               </select>
 
