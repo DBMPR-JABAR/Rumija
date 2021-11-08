@@ -83,7 +83,11 @@
                                 <td>{{ @$data->kategori_inventarisasi->name }}</td>
                                 <td>{{ @$data->kode_lokasi }} {!! @$data->lokasi !!}</td>
                                 <td>{{ @$data->ruas->nama_ruas_jalan }}</td>
-                                <td>{{ @$data->detail->posisi.' - ' }}{{ @$data->detail->keterangan }}</td>
+                                <td>
+                                    @if(@$data->detail->posisi)
+                                    {{ @$data->detail->posisi }} - 
+                                    @endif
+                                    {{ @$data->detail->keterangan }}</td>
                                 <td style="min-width: 75px">
                                     <div class="btn-group" role="group" data-placement="top" title=""
                                         data-original-title=".btn-xlg">
