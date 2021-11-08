@@ -27,7 +27,12 @@ class RumijaInventarisasiController extends Controller
         $ruas_jalan = DB::table('master_ruas_jalan')->get();
         $category = InventarisasiKategori::all();
         $action = 'store';
-        return view('admin.input_data.rumija_inventarisasi.insert', compact('uptd', 'ruas_jalan', 'action','category'));
+        $sup = DB::table('utils_sup');
+        if (Auth::user()->internalRole->uptd) {
+            $sup = $sup->where('uptd_id', $uptd_id);
+        }
+        $sup = $sup->get();
+        return view('admin.input_data.rumija_inventarisasi.insert', compact('uptd', 'ruas_jalan', 'action','category','sup'));
     }
     public function store(Request $request)
     {
