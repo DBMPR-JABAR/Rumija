@@ -97,7 +97,7 @@
             <label class="col-md-2 col-form-label">SUP</label>
             <div class="col-md-10">
               <select class="form-control searchableField" id="sup" name="kd_sup" onchange="ubahOption1()" required>
-                @if (@$inventaris->kd_sup)
+                @if (@$inventaris->kd_sup || Auth::user()->internalRole->uptd)
                   @foreach ($sup as $data)
                     <option value="{{ $data->kd_sup }}" @if ($data->kd_sup == @$inventaris->kd_sup) selected @endif>{{ $data->name }}</option>
                   @endforeach
@@ -111,7 +111,7 @@
             <label class="col-md-2 col-form-label">Ruas Jalan</label>
             <div class="col-md-10">
               <select class="form-control searchableField" id="ruas_jalan" name="id_ruas_jalan" required>
-                @if (@$inventaris->id_ruas_jalan)
+                @if (@$inventaris->id_ruas_jalan || Auth::user()->internalRole->uptd)
                   @foreach ($input_ruas_jalan as $data)
                     <option value="{{ $data->id_ruas_jalan }}" @if ($data->id_ruas_jalan == @$inventaris->id_ruas_jalan) selected @endif>{{ $data->nama_ruas_jalan }}
                     </option>
