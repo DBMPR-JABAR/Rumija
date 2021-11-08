@@ -223,7 +223,7 @@ class ReportInventarisRumijaController extends Controller
                 'color' => '#686C38',
                 'type' => 'marker',
                 'title' => 'JEMBATAN',
-                'icon_url' => 'https://tj.temanjabar.net/assets/images/marker/jembatan.png'
+                'icon_url' => asset('assets/images/marker/inventaris/jembatan.png')
             ];
             $GORONG_GORONG = (object)[
                 'count' => 0,
@@ -231,7 +231,7 @@ class ReportInventarisRumijaController extends Controller
                 'color' => '#9B9C8C',
                 'type' => 'marker',
                 'title' => 'GORONG-GORONG',
-                'icon_url' => ''
+                'icon_url' => asset('assets/images/marker/inventaris/gorong-gorong.png')
             ];
             $TPT = (object)[
                 'count' => 0,
@@ -247,7 +247,7 @@ class ReportInventarisRumijaController extends Controller
                 'color' => '#00FF00',
                 'type' => 'marker',
                 'title' => 'POHON',
-                'icon_url' => ''
+                'icon_url' => asset('assets/images/marker/inventaris/pohon.png')
             ];
             $DATA_PATOK_PENGARAH_HM_KM = (object)[
                 'count' => 0,
