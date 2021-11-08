@@ -29,6 +29,7 @@ class RumijaInventarisasiController extends Controller
         $action = 'store';
         $sup = DB::table('utils_sup');
         if (Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
             $sup = $sup->where('uptd_id', $uptd_id);
         }
         $sup = $sup->get();
