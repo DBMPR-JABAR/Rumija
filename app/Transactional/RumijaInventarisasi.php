@@ -21,4 +21,8 @@ class RumijaInventarisasi extends Model
     {
         return $this->belongsTo('App\Transactional\RumijaInventarisasiKategori', 'rumija_inventarisasi_kategori_id');
     }
+    public function ruas()
+    {
+        return $this->belongsTo('App\Model\Transactional\RuasJalan', 'id_ruas_jalan','id_ruas_jalan');
+    }
 }
