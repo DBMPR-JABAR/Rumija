@@ -348,7 +348,7 @@
             </div>
           </div>
           <div class=" form-group row">
-            <a href="{{ route('rumija.index') }}"><button type="button"
+            <a href="{{ route('rumija.inventarisasi.index') }}"><button type="button"
                 class="btn btn-default waves-effect">Batal</button></a>
             <button type="submit" class="ml-2 btn btn-primary waves-effect waves-light">Simpan</button>
           </div>
