@@ -653,4 +653,19 @@ class ReportInventarisRumijaController extends Controller
             return response()->json($this->response, 500);
         }
     }
+
+    public function getReportPemanfaatanByRuasJalanId($ruasJalanId)
+    {
+        try {
+            $pemanfaatan = DB::table('rumija')->where('ruas_jalan_id', $ruasJalanId)->get();
+            $ruasJalan = DB::table('master_ruas_jalan')->where('id_ruas_jalan', $ruasJalanId)->first();
+
+            $this->response['data']['data'] = $pemanfaatan;
+            $this->response['data']['ruas_jalan'] = $ruasJalan;
+            return response()->json($this->response, 200);
+        } catch (\Exception $th) {
+            $this->response['data']['message'] = 'Internal Error';
+            return response()->json($this->response, 500);
+        }
+    }
 }
