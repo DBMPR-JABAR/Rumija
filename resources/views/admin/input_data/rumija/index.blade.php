@@ -63,8 +63,8 @@
                                                     class="form-control form-control-primary">
                                                     <option value="ALL">Semua </option>
                                                     @foreach ($uptd as $row)
-                                                    <option value="{{$row->id}}"
-                                                        {{$row->id == @$filter->uptd ? 'selected':''}}>{{$row->nama}}
+                                                    <option value="{{$row->id}}" {{$row->id == @$filter->uptd ?
+                                                        'selected':''}}>{{$row->nama}}
                                                     </option>
                                                     @endforeach
                                                 </select>
@@ -134,7 +134,7 @@
                                 <td>{{ $data->alamat }}</td>
                                 <td>{{ $data->no_ijin }}</td>
                                 <td>{{ $data->tanggal_ijin }}</td>
-                                <td>{{ $data->ruas_jalan }}</td>
+                                <td>{{ explode('___',$data->ruas_jalan)[0] }}</td>
                                 <td>{{ $data->km }}</td>
                                 <td>{{ $data->kab_kota }}</td>
                                 <td>{{ $data->uptd_name }}</td>

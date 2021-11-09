@@ -115,8 +115,8 @@
                                         <select class="form-control searchableField" name="ruas_jalan" required>
                                             <option>Pilih Ruas Jalan</option>
                                             @foreach ($ruas_jalan as $data)
-                                            <option value="{{ $data->nama_ruas_jalan }}" @isset($rumija)
-                                                {{ $rumija->ruas_jalan == $data->nama_ruas_jalan ? 'selected' : '' }}
+                                            <option value="{{ $data->nama_ruas_jalan.'___'.$data->id_ruas_jalan }}" @isset($rumija)
+                                                {{ $rumija->ruas_jalan == $data->nama_ruas_jalan.'___'.$data->id_ruas_jalan ? 'selected' : '' }}
                                                 @endisset>
                                                 {{ $data->nama_ruas_jalan }}</option>
                                             @endforeach
