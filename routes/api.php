@@ -61,6 +61,7 @@ Route::prefix('jqr')->group(function () {
 Route::prefix('rumija')->group(function () {
     Route::prefix('report')->group(function () {
         Route::get('inventaris/{ruasJalanId}', [ReportInventarisRumijaController::class, 'getReportByRuasJalanId']);
+        Route::get('pemanfaatan/{ruasJalanId}', [ReportInventarisRumijaController::class, 'getReportPemanfaatanByRuasJalanId']);
     });
 });
 

@@ -57,6 +57,7 @@ class RumijaController extends Controller
     public function store(Request $request)
     {
         $rumija = $request->except('_token', 'foto', 'video', 'foto_1', 'foto_2');
+        $rumija['ruas_jalan_id'] = explode('___',$request->ruas_jalan)[1];
         if ($request->file('foto') != null) {
             $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto')->getClientOriginalName());
             $request->file('foto')->storeAs('public/', $path);
@@ -120,6 +121,7 @@ class RumijaController extends Controller
     public function update(Request $request, $id)
     {
         $rumija = $request->except('_token', '_method', 'foto', 'video', 'foto_1', 'foto_2');
+        $rumija['ruas_jalan_id'] = explode('___',$request->ruas_jalan)[1];
         if ($request->file('foto') != null) {
             $path = 'rumija/' . Str::snake(date("YmdHis") . ' ' . $request->file('foto')->getClientOriginalName());
             $request->file('foto')->storeAs('public/', $path);
