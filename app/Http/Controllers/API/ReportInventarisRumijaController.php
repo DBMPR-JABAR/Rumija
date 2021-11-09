@@ -516,7 +516,7 @@ class ReportInventarisRumijaController extends Controller
                                 'lat_akhir' => $data->lat_akhir,
                                 'lng_akhir' => $data->lng_akhir,
                                 'popup' => '<div style="max-height:80vh;overflow:auto;">
-                                <p class="mb-0"><b>SALURAN</b></p>
+                                <p class="mb-0"><b>SALURAN</b><span style="color:gray">' . $data->id . '</span></p>
                                     <table class="table">
                                     <tr>
                                     <td>Lokasi</td>
