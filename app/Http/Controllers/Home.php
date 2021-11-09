@@ -6,42 +6,16 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use App\Transactional\RumijaInventarisasiKategori;
+use App\Transactional\RumijaInventarisasi;
 class Home extends Controller
 {
     public function index()
     {
-        $pembangunan_talikuat = DB::connection('talikuat')->table('data_umum')->where('is_deleted', '=', null);
-
-        if (Auth::user()->internalRole->uptd) {
-            if (Auth::user()->internalRole->uptd) {
-                $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-                $pembangunan_talikuat = $pembangunan_talikuat->where('id_uptd', $uptd_id);
-            }
-        }
-        $pembangunan_talikuat = $pembangunan_talikuat->get();
-
-        $data_talikuat = DB::connection('talikuat')->select('SELECT
-        ( SUM( master_laporan_harian.bobot )) as persentase,
-        master_laporan_harian.id_data_umum,
-        data_umum.nm_paket as nama_paket,
-        data_umum.id_uptd
-    FROM
-        `master_laporan_harian`
-        JOIN jadual ON jadual.id = master_laporan_harian.id_jadual
-        JOIN data_umum ON data_umum.id = master_laporan_harian.id_data_umum
-
-        WHERE master_laporan_harian.ditolak = 4 AND data_umum.is_deleted IS NULL AND master_laporan_harian.reason_delete IS NULL
-    GROUP BY
-        master_laporan_harian.id_data_umum');
-
-        $detail_data_talikuat = null;
-        foreach($pembangunan_talikuat as $data) {
-            $detail_data_talikuat[$data->id] = $this->GetDataUmum($data->id);
-        }
-        // dd($detail_data_talikuat);
-
-        return view('admin.home', compact('pembangunan_talikuat', 'data_talikuat','detail_data_talikuat'));
+        $inventarisRumijaCategory = RumijaInventarisasiKategori::all();
+        $inventarisRumijaCount = RumijaInventarisasi::all()->count();
+        // dd($inventarisRumijaCategory[0]->list_inventaris->count());
+        return view('admin.home', compact('inventarisRumijaCategory', 'inventarisRumijaCount'));
     }
 
     public function downloadFile()
