@@ -657,9 +657,10 @@ class ReportInventarisRumijaController extends Controller
     public function getReportPemanfaatanByRuasJalanId($ruasJalanId)
     {
         try {
-            $pemanfaatan = DB::table('rumija')->where('ruas_jalan_id', $ruasJalanId)->get();
             $ruasJalan = DB::table('master_ruas_jalan')->where('id_ruas_jalan', $ruasJalanId)->first();
+            $pemanfaatan = DB::table('rumija')->where('ruas_jalan_id', $ruasJalanId)->get();
 
+            $this->response['status'] = (count($pemanfaatan) == 0) ? false : true;
             $this->response['data']['data'] = $pemanfaatan;
             $this->response['data']['ruas_jalan'] = $ruasJalan;
             return response()->json($this->response, 200);
