@@ -2,20 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use App\Transactional\RumijaInventarisasiKategori;
+use App\Model\Transactional\UPTD;
 use App\Transactional\RumijaInventarisasi;
+use App\Transactional\RumijaInventarisasiKategori;
+use Illuminate\Support\Facades\DB;
+
 class Home extends Controller
 {
     public function index()
     {
         $inventarisRumijaCategory = RumijaInventarisasiKategori::all();
         $inventarisRumijaCount = RumijaInventarisasi::all()->count();
-        // dd($inventarisRumijaCategory[0]->list_inventaris->count());
-        return view('admin.home', compact('inventarisRumijaCategory', 'inventarisRumijaCount'));
+        $uptd = UPTD::all();
+        $categories = (object) [
+            (object) [
+                'nama' => 'Jembatan',
+                'id' => 1,
+                'icon' => asset('assets/images/marker/inventaris/jembatan.png'),
+            ],
+            (object) [
+                'nama' => 'Gorong-Gorong',
+                'id' => 2,
+                'icon' => asset('assets/images/marker/inventaris/gorong-gorong.png'),
+            ],
+            (object) [
+                'nama' => 'Pohon',
+                'id' => 4,
+                'icon' => asset('assets/images/marker/inventaris/pohon.png'),
+            ],
+            (object) [
+                'nama' => 'Patok',
+                'id' => 5,
+                'icon' => asset('assets/images/marker/inventaris/patok.png'),
+            ],
+        ];
+        return view('admin.home', compact('inventarisRumijaCategory', 'inventarisRumijaCount', 'uptd', 'categories'));
     }
 
     public function downloadFile()
@@ -41,12 +62,12 @@ class Home extends Controller
         $laporan = DB::connection('talikuat')->table('master_laporan_harian')->where([
             ['ditolak', 4],
             ['id_data_umum', $id],
-            ['reason_delete', null]
+            ['reason_delete', null],
         ])->get();
-        return (object)[
+        return (object) [
             "curva" => $tes,
             "data_umum" => $data,
-            "laporan" => [$laporan]
+            "laporan" => [$laporan],
         ];
     }
 }

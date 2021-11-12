@@ -3,6 +3,7 @@
 @section('title') Admin Dashboard @endsection
 
 @section('head')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/data.js"></script>
 <script src="https://code.highcharts.com/modules/drilldown.js"></script>
@@ -62,6 +63,10 @@
     .highcharts-data-table tr:hover {
         background: #f1f7ff;
     }
+
+    .jstree-anchor {
+        font-size: 8pt;
+    }
 </style>
 @endsection
 
@@ -90,8 +95,61 @@
 
 @section('page-body')
 <div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Data Inventaris Rumija</h5>
+            </div>
+            <div class="card-block">
+                <div id="inventarisasi-tree">
+                    <ul>
+                        <li>UPTD
+                            <ul>
+                                @foreach ($uptd as $key => $data)
+                                <li>{{$data->nama}}
+                                    <ul>
+                                        @foreach ($data->library_sup as $sup)
+                                        <li>{{$sup->name}}
+                                            <ul>
+                                                @foreach ($sup->ruasJalan as $ruasJalan)
+                                                <li>{{$ruasJalan->nama_ruas_jalan}}
+                                                    <ul>
+                                                        @foreach ($categories as $kategori)
+                                                        <li data-jstree='{"icon":"{{$kategori->icon}}"}'>
+                                                            {{$kategori->nama}}
+                                                            {{$ruasJalan->inventarisRumija->where('rumija_inventarisasi_kategori_id',
+                                                            $kategori->id)->count()}}
+                                                            <ul>
+                                                                @foreach($ruasJalan->inventarisRumija->where('rumija_inventarisasi_kategori_id',
+                                                                $kategori->id) as $inventaris)
+                                                                <li data-jstree='{"icon":"{{$kategori->icon}}"}'
+                                                                    data-href="{{ route('rumija.inventarisasi.edit', $inventaris->id) }}">
+
+                                                                    {{$inventaris->lokasi}}
+                                                                </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="col-md-12 col-xl-6">
-        <div class="card sale-card">
+        <div class="card">
             <div class="card-header">
                 <h5>Data Inventaris Rumija</h5>
             </div>
@@ -145,4 +203,24 @@
 @endsection
 
 @section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<script type="text/javascript">
+    const tree = $('#inventarisasi-tree').jstree({
+        core : {
+            themes : {
+            variant : "small"
+            }
+        },
+        plugins : [
+        "search",
+        "sort",
+        ]
+    });
+
+    tree.on("select_node.jstree", function (e, data) {
+        const href = data?.node?.data?.href
+        if(href) window.open(href,'_blank');
+     });
+
+</script>
 @endsection
