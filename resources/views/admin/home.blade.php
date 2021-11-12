@@ -95,7 +95,7 @@
 
 @section('page-body')
 <div class="row">
-    <div class="col-12">
+    <div class="col-md-12 col-xl-6">
         <div class="card">
             <div class="card-header">
                 <h5>Data Inventaris Rumija</h5>
@@ -103,32 +103,28 @@
             <div class="card-block">
                 <div id="inventarisasi-tree">
                     <ul>
-                        <li>UPTD
+                        @foreach ($uptd as $key => $data)
+                        <li>{{$data->nama}}
                             <ul>
-                                @foreach ($uptd as $key => $data)
-                                <li>{{$data->nama}}
+                                @foreach ($data->library_sup as $sup)
+                                <li>{{$sup->name}}
                                     <ul>
-                                        @foreach ($data->library_sup as $sup)
-                                        <li>{{$sup->name}}
+                                        @foreach ($sup->ruasJalan as $ruasJalan)
+                                        <li>{{$ruasJalan->nama_ruas_jalan}} :
+                                            {{$ruasJalan->inventarisRumija->count()}}
                                             <ul>
-                                                @foreach ($sup->ruasJalan as $ruasJalan)
-                                                <li>{{$ruasJalan->nama_ruas_jalan}}
+                                                @foreach ($categories as $kategori)
+                                                <li data-jstree='{"icon":"{{$kategori->icon}}"}'>
+                                                    {{$kategori->nama}} :
+                                                    {{$ruasJalan->inventarisRumija->where('rumija_inventarisasi_kategori_id',
+                                                    $kategori->id)->count()}}
                                                     <ul>
-                                                        @foreach ($categories as $kategori)
-                                                        <li data-jstree='{"icon":"{{$kategori->icon}}"}'>
-                                                            {{$kategori->nama}}
-                                                            {{$ruasJalan->inventarisRumija->where('rumija_inventarisasi_kategori_id',
-                                                            $kategori->id)->count()}}
-                                                            <ul>
-                                                                @foreach($ruasJalan->inventarisRumija->where('rumija_inventarisasi_kategori_id',
-                                                                $kategori->id) as $inventaris)
-                                                                <li data-jstree='{"icon":"{{$kategori->icon}}"}'
-                                                                    data-href="{{ route('rumija.inventarisasi.edit', $inventaris->id) }}">
+                                                        @foreach($ruasJalan->inventarisRumija->where('rumija_inventarisasi_kategori_id',
+                                                        $kategori->id) as $inventaris)
+                                                        <li data-jstree='{"icon":"{{$kategori->icon}}"}'
+                                                            data-href="{{ route('rumija.inventarisasi.edit', $inventaris->id) }}">
 
-                                                                    {{$inventaris->lokasi}}
-                                                                </li>
-                                                                @endforeach
-                                                            </ul>
+                                                            {{$inventaris->lokasi}}
                                                         </li>
                                                         @endforeach
                                                     </ul>
@@ -142,29 +138,8 @@
                                 @endforeach
                             </ul>
                         </li>
+                        @endforeach
                     </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-12 col-xl-6">
-        <div class="card">
-            <div class="card-header">
-                <h5>Data Inventaris Rumija</h5>
-            </div>
-            <div class="card-block text-center">
-                <h6>Total Inventaris</h6>
-                <h3 class="f-w-700 m-b-40">{{$inventarisRumijaCount}}</h3>
-                <div class="row">
-                    @foreach ($inventarisRumijaCategory as $category)
-                    <div class="col-md-4 col-sm-12">
-                        <div class="card p-3">
-                            <p class="m-b-5">{{$category->name}}</p>
-                            <h3 class="f-w-700 text-c-yellow">{{$category->list_inventaris->count()}}</h3>
-                        </div>
-                    </div>
-                    @endforeach
                 </div>
             </div>
         </div>

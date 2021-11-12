@@ -13,27 +13,27 @@ class Home extends Controller
     {
         $inventarisRumijaCategory = RumijaInventarisasiKategori::all();
         $inventarisRumijaCount = RumijaInventarisasi::all()->count();
-        $uptd = UPTD::all();
+        $uptd = UPTD::where('nama','NOT LIKE','%labkon%')->get();
         $categories = (object) [
             (object) [
                 'nama' => 'Jembatan',
                 'id' => 1,
-                'icon' => asset('assets/images/marker/inventaris/jembatan.png'),
+                'icon' => asset('assets/images/marker/inventaris/jembatan-16.png'),
             ],
             (object) [
                 'nama' => 'Gorong-Gorong',
                 'id' => 2,
-                'icon' => asset('assets/images/marker/inventaris/gorong-gorong.png'),
+                'icon' => asset('assets/images/marker/inventaris/gorong-gorong-16.png'),
             ],
             (object) [
                 'nama' => 'Pohon',
                 'id' => 4,
-                'icon' => asset('assets/images/marker/inventaris/pohon.png'),
+                'icon' => asset('assets/images/marker/inventaris/pohon-16.png'),
             ],
             (object) [
                 'nama' => 'Patok',
                 'id' => 5,
-                'icon' => asset('assets/images/marker/inventaris/patok.png'),
+                'icon' => asset('assets/images/marker/inventaris/patok-16.png'),
             ],
         ];
         return view('admin.home', compact('inventarisRumijaCategory', 'inventarisRumijaCount', 'uptd', 'categories'));

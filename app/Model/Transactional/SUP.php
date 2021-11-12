@@ -2,7 +2,9 @@
 
 namespace App\Model\Transactional;
 
+use App\Model\Transactional\RuasJalan;
 use Illuminate\Database\Eloquent\Model;
+use app\Transactional\RumijaInventarisasi;
 
 class SUP extends Model
 {
@@ -19,5 +21,10 @@ class SUP extends Model
     public function ruasJalan()
     {
         return $this->hasMany('App\Model\Transactional\RuasJalan', 'kd_sppjj', 'kd_sup');
+    }
+
+    public function inventarisRumija()
+    {
+        return $this->hasMany(RumijaInventarisasi::class, 'kd_sup', 'kd_sppjj');
     }
 }
