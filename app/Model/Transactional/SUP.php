@@ -25,6 +25,6 @@ class SUP extends Model
 
     public function inventarisRumija()
     {
-        return $this->hasMany(RumijaInventarisasi::class, 'kd_sup', 'kd_sppjj');
+        return $this->hasMany(RumijaInventarisasi::class, 'kd_sup', 'kd_sup');
     }
 }

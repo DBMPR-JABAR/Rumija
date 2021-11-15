@@ -104,20 +104,25 @@
                 <div id="inventarisasi-tree">
                     <ul>
                         @foreach ($uptd as $key => $data)
-                        <li>{{$data->nama}}
+                        <li>{{$data->nama}} : <span
+                                class="font-weight-bold">{{$data->inventarisRumija->whereIn('rumija_inventarisasi_kategori_id',$inCategories)->count()}}</span>
                             <ul>
                                 @foreach ($data->library_sup as $sup)
-                                <li>{{$sup->name}}
+                                <li>{{$sup->name}} :
+                                    <span
+                                        class="font-weight-bold">{{$sup->inventarisRumija->whereIn('rumija_inventarisasi_kategori_id',$inCategories)->count()}}</span>
                                     <ul>
                                         @foreach ($sup->ruasJalan as $ruasJalan)
                                         <li>{{$ruasJalan->nama_ruas_jalan}} :
-                                            {{$ruasJalan->inventarisRumija->count()}}
+                                            <span
+                                                class="font-weight-bold">{{$ruasJalan->inventarisRumija->whereIn('rumija_inventarisasi_kategori_id',$inCategories)->count()}}</span>
                                             <ul>
                                                 @foreach ($categories as $kategori)
                                                 <li data-jstree='{"icon":"{{$kategori->icon}}"}'>
                                                     {{$kategori->nama}} :
-                                                    {{$ruasJalan->inventarisRumija->where('rumija_inventarisasi_kategori_id',
-                                                    $kategori->id)->count()}}
+                                                    <span
+                                                        class="font-weight-bold">{{$ruasJalan->inventarisRumija->where('rumija_inventarisasi_kategori_id',
+                                                        $kategori->id)->count()}}</span>
                                                     <ul>
                                                         @foreach($ruasJalan->inventarisRumija->where('rumija_inventarisasi_kategori_id',
                                                         $kategori->id) as $inventaris)

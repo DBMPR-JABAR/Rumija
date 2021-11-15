@@ -18,8 +18,6 @@ class UPTD extends Model
     {
         return $this->hasMany('App\Model\Transactional\PekerjaanPemeliharaan', 'uptd_id')->where('is_deleted', '!=', 1);
     }
-
-
     public function inventarisRumija()
     {
         return $this->hasMany(RumijaInventarisasi::class, 'uptd_id');

@@ -13,7 +13,7 @@ class Home extends Controller
     {
         $inventarisRumijaCategory = RumijaInventarisasiKategori::all();
         $inventarisRumijaCount = RumijaInventarisasi::all()->count();
-        $uptd = UPTD::where('nama','NOT LIKE','%labkon%')->get();
+        $uptd = UPTD::where('nama', 'NOT LIKE', '%labkon%')->get();
         $categories = (object) [
             (object) [
                 'nama' => 'Jembatan',
@@ -36,7 +36,11 @@ class Home extends Controller
                 'icon' => asset('assets/images/marker/inventaris/patok-16.png'),
             ],
         ];
-        return view('admin.home', compact('inventarisRumijaCategory', 'inventarisRumijaCount', 'uptd', 'categories'));
+        $inCategories = [];
+        foreach ($categories as $category) {
+            $inCategories[] = $category->id;
+        }
+        return view('admin.home', compact('inventarisRumijaCategory', 'inventarisRumijaCount', 'uptd', 'categories', 'inCategories'));
     }
 
     public function downloadFile()
