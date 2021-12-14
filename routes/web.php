@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('test', function () {
     return view('admin.layout.index');
@@ -108,6 +108,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::view('map-dashboard-canggih', 'admin.map.map-dashboard-canggih');
     // {SiteURL}/admin/monitoring/*
     Route::group(['prefix' => 'monitoring'], function () {
+        Route::get('maps', 'MapsController@index')->name('admin.maps');
         Route::get('progress-pekerjaan', 'MonitoringController@getProgressPekerjaan');
         Route::get('pekerjaan_resume', 'Monitoring\ResumeController@pekerjaan')->name('resume_pekerjaan');
 
@@ -261,8 +262,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('edit-menu/{id}', 'MasterData\UserController@editMenu')->name('editMenu');
             Route::post('update-menu/update', 'MasterData\UserController@updateMenu')->name('updateMenu');
             Route::get('destroy-menu/{id}', 'MasterData\UserController@destroyMenu')->name('deleteMenu');
-
-
 
             Route::get('role-akses', 'MasterData\UserController@getDaftarRoleAkses')->name('getRoleAkses');
             Route::get('role-akses/create', 'MasterData\UserController@createRoleAccess')->name('createRoleAccess');
@@ -429,7 +428,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
             Route::post('laporan', 'InputData\PekerjaanController@generateLaporanPekerjaan')->name('generateLapPekerjaan');
 
-
             Route::get('json', 'InputData\PekerjaanController@json')->name('getJsonDataBencana');
         });
 
@@ -552,7 +550,6 @@ Route::view('map/pemetaan_laporan_masyarakat', 'admin.map.pemetaan_laporan_masya
 
 Route::post('getSupData', 'MonitoringController@getSupData')->name('getSupData.filter');
 
-
 Route::view('debug/mail/disposisi', 'mail.notifikasiDisposisi');
 Route::view('debug/mail/tindaklanjut', 'mail.notifikasiTindakLanjut');
 
@@ -568,7 +565,6 @@ Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
 
 Route::get('debug', 'Backup\DebugController@debug');
-
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('v1')->group(function () {
