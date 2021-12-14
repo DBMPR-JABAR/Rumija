@@ -1,0 +1,43 @@
+html,
+body,
+main,
+#root {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#maps_container {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#logo {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.267);
+    padding: 5px;
+    border-radius: 5px;
+    /* Black background with opacity */
+}
+
+@media only screen and (max-width: 900px) {
+    #logo {
+        display: none;
+    }
+}
+
+ #basemaps-wrapper {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 400;
+    background: white;
+    padding: 10px;
+  }
