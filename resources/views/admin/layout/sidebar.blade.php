@@ -25,7 +25,7 @@
                         @if (hasAccess(Auth::user()->internal_role_id, 'Executive Dashboard', 'View'))
                         <li>
                             <a href="https://202.75.26.11/systarumija-maps" target="_blank" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Executive Dashboard</span>
+                                <span class="pcoded-mtext">Executive Dashboards</span>
                             </a>
                         </li>
                         @endif
