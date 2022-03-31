@@ -115,6 +115,14 @@
                                     </a>
                                 </li>
                                 @endif
+                                @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))
+                                <li class="{{ Request::segment(4) == 'pelaporan' ? 'active' : '' }}">
+                                    <a href="{{ url('admin/pelaporan') }}"
+                                        class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Pelaporan Rumija</span>
+                                    </a>
+                                </li>
+                                @endif
                             </ul>
                         </li>
                         @endif
