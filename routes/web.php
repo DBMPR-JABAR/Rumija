@@ -564,6 +564,13 @@ Route::view('coba-roaddroid', 'debug.map-roaddroid');
 Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
 
+//Pelaporan Rumija
+Route::get('/admin/pelaporan', 'PelaporanController@index');
+Route::post('/pelaporan/create','PelaporanController@create');
+Route::get('/admin/pelaporan/{id}/edit','PelaporanController@edit');
+Route::post('/admin/pelaporan/{id}/update','PelaporanController@update');
+Route::get('/admin/pelaporan/{id}/delete','PelaporanController@delete');
+
 Route::get('debug', 'Backup\DebugController@debug');
 
 Route::middleware(['auth'])->group(function () {
