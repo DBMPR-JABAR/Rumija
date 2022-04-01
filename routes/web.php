@@ -70,6 +70,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', function () {
         return redirect(route('monitoring-kontrak'));
     });
+    
+
 
     Route::group(['prefix' => 'pengujian_bahan'], function () {
         Route::get('dashboard_pengujian', 'LabKonController@index');
@@ -502,6 +504,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('/permohonan_rumija/surat_permohonan/{id}', 'InputData\PermohonanRumijaController@surat_permohonan_rumija')->name('surat_permohonan_rumija');
             Route::get('/permohonan_rumija/delete/{id}', 'InputData\PermohonanRumijaController@destroy');
             Route::resource('/permohonan_rumija', 'InputData\PermohonanRumijaController');
+            //Pelaporan Rumija
+            Route::group(['prefix' => 'pelaporan'], function () {
+                Route::get('', 'PelaporanController@index')->name('admin.rumija.report.index');
+                Route::post('/create','PelaporanController@create')->name('admin.rumija.report.create');
+                Route::get('/{id}/edit','PelaporanController@edit')->name('admin.rumija.report.edit');
+                Route::post('/{id}/update','PelaporanController@update')->name('admin.rumija.report.update');
+                Route::get('/{id}/delete','PelaporanController@delete')->name('admin.rumija.report.index');
+            });
         });
     });
     Route::prefix('inventarisasi')->group(function () {
@@ -564,12 +574,7 @@ Route::view('coba-roaddroid', 'debug.map-roaddroid');
 Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
 
-//Pelaporan Rumija
-Route::get('/admin/pelaporan', 'PelaporanController@index');
-Route::post('/pelaporan/create','PelaporanController@create');
-Route::get('/admin/pelaporan/{id}/edit','PelaporanController@edit');
-Route::post('/admin/pelaporan/{id}/update','PelaporanController@update');
-Route::get('/admin/pelaporan/{id}/delete','PelaporanController@delete');
+
 
 Route::get('debug', 'Backup\DebugController@debug');
 
