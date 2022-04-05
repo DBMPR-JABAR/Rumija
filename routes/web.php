@@ -506,11 +506,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::resource('/permohonan_rumija', 'InputData\PermohonanRumijaController');
             //Pelaporan Rumija
             Route::group(['prefix' => 'pelaporan'], function () {
-                Route::get('', 'PelaporanController@index')->name('admin.rumija.report.index');
-                Route::post('/create','PelaporanController@create')->name('admin.rumija.report.create');
-                Route::get('/{id}/edit','PelaporanController@edit')->name('admin.rumija.report.edit');
-                Route::post('/{id}/update','PelaporanController@update')->name('admin.rumija.report.update');
-                Route::get('/{id}/delete','PelaporanController@delete')->name('admin.rumija.report.index');
+                Route::get('', 'InputData\RumijaReportController@index')->name('admin.rumija.report.index');
+                Route::post('/create','InputData\RumijaReportController@store')->name('admin.rumija.report.store');
+                Route::get('/{id}/edit','InputData\RumijaReportController@edit')->name('admin.rumija.report.edit');
+                Route::get('/{id}/show','InputData\RumijaReportController@show')->name('admin.rumija.report.show');
+                Route::post('/{id}/update','InputData\RumijaReportController@update')->name('admin.rumija.report.update');
+                Route::get('/{id}/delete','InputData\RumijaReportController@delete')->name('admin.rumija.report.delete');
             });
         });
     });

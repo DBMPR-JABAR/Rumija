@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
                 $input_uptd_lists = $input_uptd_lists->where('id',$uptd_id);
             }
             $input_uptd_lists = $input_uptd_lists->get();
-             $view->with(['uptd_lists'=> $uptd_lists, 'input_uptd_lists'=>$input_uptd_lists]);
+            $view->with(['uptd_lists'=> $uptd_lists, 'input_uptd_lists'=>$input_uptd_lists]);
         });
         View::composer('*', function ($view) {
             $user_lists = DB::table('users')->get();

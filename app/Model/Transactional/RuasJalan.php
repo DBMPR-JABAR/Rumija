@@ -25,4 +25,8 @@ class RuasJalan extends Model
     {
         return $this->hasMany(RumijaInventarisasi::class, 'id_ruas_jalan', 'id_ruas_jalan');
     }
+    public function data_sup()
+    {
+        return $this->belongsTo('App\Model\Transactional\SUP', 'kd_sppjj','kd_sup');
+    }
 }
