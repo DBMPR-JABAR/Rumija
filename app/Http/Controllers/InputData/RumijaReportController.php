@@ -49,6 +49,7 @@ class RumijaReportController extends Controller
             'created_by' =>Auth::user()->id,
             'ruas_jalan_id'=>$request->ruas_jalan_id,
             'sup_id'=>$ruas->data_sup->id,
+            'sup'=>$ruas->data_sup->name,
             'kota_id'=>$ruas->kota_id,
             'uptd_id'=>$ruas->uptd_id,
             'keterangan'=>$request->keterangan
@@ -111,6 +112,7 @@ class RumijaReportController extends Controller
             'created_by' =>Auth::user()->id,
             'ruas_jalan_id'=>$request->ruas_jalan_id,
             'sup_id'=>$ruas->data_sup->id,
+            'sup'=>$ruas->data_sup->name,
             'kota_id'=>$ruas->kota_id,
             'uptd_id'=>$ruas->uptd_id,
             'keterangan'=>$request->keterangan

@@ -23,10 +23,37 @@
                     </a>
                     <ul class="pcoded-submenu">
                         @if (hasAccess(Auth::user()->internal_role_id, 'Executive Dashboard', 'View'))
-                        <li>
-                            <a href="https://202.75.26.11/systarumija-maps" target="_blank" class="waves-effect waves-dark">
+                        {{-- <li>
+                            <a href="https://182.253.37.42/systarumija-maps" target="_blank" class="waves-effect waves-dark">
                                 <span class="pcoded-mtext">Executive Dashboard</span>
                             </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('admin/map-dashboard') }}" target="_blank" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Executive Dashboard</span>
+                            </a>
+                        </li> --}}
+                        <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'map-dashboard' ? 'pcoded-trigger active' : '' }}">
+                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Info Geografis</span>
+                            </a>
+                            <ul class="pcoded-submenu">
+                                @if (hasAccess(Auth::user()->internal_role_id, 'Executive Dashboard', 'View'))
+                                <li class="{{ Request::segment(3) == 'systarumija-maps' ? 'active' : '' }}">
+                                    <a href="https://182.253.37.42/systarumija-maps" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Inventarisasi</span>
+                                    </a>
+                                </li>
+                                @endif
+                                @if (hasAccess(Auth::user()->internal_role_id, 'Executive Dashboard', 'View'))
+                                <li class="{{ Request::segment(3) == 'map-dashboard' ? 'active' : '' }}">
+                                    <a href="{{ url('admin/map-dashboard') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Permohonan & Laporan</span>
+                                    </a>
+                                </li>
+                                @endif
+                             
+                            </ul>
                         </li>
                         @endif
                     </ul>
