@@ -2,7 +2,7 @@
 
 @section('title') Edit pelaporan @endsection
 @section('head')
-<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
 <script>
 function initialize() {
     var lapor = {!! json_encode($pelaporan->toArray()) !!};
