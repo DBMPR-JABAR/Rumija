@@ -40,7 +40,7 @@
                             <ul class="pcoded-submenu">
                                 @if (hasAccess(Auth::user()->internal_role_id, 'Executive Dashboard', 'View'))
                                 <li class="{{ Request::segment(3) == 'systarumija-maps' ? 'active' : '' }}">
-                                    <a href="https://182.253.37.42/systarumija-maps" class="waves-effect waves-dark">
+                                    <a href="http://182.253.37.42/systarumija-maps" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Inventarisasi</span>
                                     </a>
                                 </li>
