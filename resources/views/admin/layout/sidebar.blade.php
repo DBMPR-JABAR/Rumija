@@ -111,7 +111,7 @@
             </ul>
             @endif
             @if (hasAccess(Auth::user()->internal_role_id, 'Input Pekerjaan', 'View'))
-            <ul class="pcoded-item pcoded-left-item">
+            {{-- <ul class="pcoded-item pcoded-left-item">
                 <li class="pcoded-hasmenu {{ Request::segment(2) == 'input-data' ? 'pcoded-trigger active' : '' }}">
                     <a href="javascript:void(0)" class="waves-effect waves-dark">
                         <span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
@@ -151,6 +151,43 @@
                                 </li>
                                 @endif
                             </ul>
+                        </li>
+                        @endif
+                    </ul>
+                </li>
+            </ul> --}}
+            @endif
+            @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View') ||
+            hasAccess(Auth::user()->internal_role_id, 'Permohonan Rumija', 'View'))
+            <ul class="pcoded-item pcoded-left-item">
+                <li class="pcoded-hasmenu {{ Request::segment(3) == 'rumija' ? 'pcoded-trigger active' : '' }}">
+                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                        <span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
+                        <span class="pcoded-mtext" style="font-size: 12px;">Pengawasan & Pemanfaatan</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))
+                        <li class="{{ Request::segment(4) == 'rumija' ? 'active' : '' }}">
+                            <a href="{{ url('admin/input-data/rumija/rumija') }}"
+                                class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Pemanfaatan Rumija</span>
+                            </a>
+                        </li>
+                        @endif
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Permohonan Rumija', 'View'))
+                        <li class="{{ Request::segment(4) == 'permohonan_rumija' ? 'active' : '' }}">
+                            <a href="{{ url('admin/input-data/rumija/permohonan_rumija') }}"
+                                class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Permohonan Rumija</span>
+                            </a>
+                        </li>
+                        @endif
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))
+                        <li class="{{ Request::segment(4) == 'pelaporan' ? 'active' : '' }}">
+                            <a href="{{ route('admin.rumija.report.index') }}"
+                                class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Pelaporan Rumija</span>
+                            </a>
                         </li>
                         @endif
                     </ul>

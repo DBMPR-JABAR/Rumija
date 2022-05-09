@@ -31,6 +31,7 @@ class RumijaReportController extends Controller
         // dd(Auth::user()->id);
         $validator = Validator::make($request->all(), [
             'image' => '',
+            'video' => 'mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:102400',
             'ruas_jalan_id' => 'required',
             'lat' => 'required',
             'long' => 'required',
@@ -54,11 +55,21 @@ class RumijaReportController extends Controller
             'uptd_id'=>$ruas->uptd_id,
             'keterangan'=>$request->keterangan
         ];
+        if($request->file('video')){
+
+            $video = $request->file('video');
+            $filename = $video->hashName();
+            $video->storeAs('public/laporan_rumija',$filename);
+            $temporari['video'] = $video->hashName();
+
+        }
+
         if($request->file('image')){
             $image = $request->file('image');
             $image->storeAs('public/laporan_rumija',$image->hashName());
             $temporari['image'] = $image->hashName();
         }
+        
         $row = RumijaReport::select('id_laporan')->orderByDesc('id_laporan')->limit(1)->first();
         if($row){
 
@@ -92,6 +103,7 @@ class RumijaReportController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'image' => '',
+            'video' => 'mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:102400',
             'ruas_jalan_id' => 'required',
             'lat' => 'required',
             'long' => 'required',
@@ -123,6 +135,14 @@ class RumijaReportController extends Controller
             $image->storeAs('public/laporan_rumija',$image->hashName());
             $temporari['image'] = $image->hashName();
         }
+        if($request->file('video')){
+            $delete = Storage::delete('public/laporan_rumija/'.$data->video);
+            $video = $request->file('video');
+            $filename = $video->hashName();
+            $video->storeAs('public/laporan_rumija',$filename);
+            $temporari['video'] = $video->hashName();
+
+        }
         $data->update($temporari);
 
         storeLogActivity(declarLog(2, 'Laporan Rumija', $data->id_laporan,1));
@@ -134,6 +154,12 @@ class RumijaReportController extends Controller
     public function delete($id)
     {
     	$pelaporan = RumijaReport::find($id);
+        if($pelaporan->image){
+            $delete = Storage::delete('public/laporan_rumija/'.$pelaporan->image);
+        }
+        if($pelaporan->video){
+            $delete = Storage::delete('public/laporan_rumija/'.$pelaporan->video);
+        }
         storeLogActivity(declarLog(3, 'Laporan Rumija', $pelaporan->id_laporan,1));
     	$pelaporan->delete($pelaporan);
     	return redirect(route('admin.rumija.report.index'))->with('sukses','Data Berhasil Dihapus!');

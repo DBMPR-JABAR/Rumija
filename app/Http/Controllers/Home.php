@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Model\Transactional\UPTD;
 use App\Transactional\RumijaInventarisasi;
 use App\Transactional\RumijaInventarisasiKategori;
+use App\Transactional\RumijaPemanfaatan;
+use App\Transactional\RumijaPermohonan;
+use App\Transactional\RumijaReport;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\DB;
 
 class Home extends Controller
@@ -40,7 +45,25 @@ class Home extends Controller
         foreach ($categories as $category) {
             $inCategories[] = $category->id;
         }
-        return view('admin.home', compact('inventarisRumijaCategory', 'inventarisRumijaCount', 'uptd', 'categories', 'inCategories'));
+        $pemanfaatan = RumijaPemanfaatan::latest();
+        $permohonan = RumijaPermohonan::latest();
+        $report = RumijaReport::latest();
+
+        if (Auth::user() && Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $pemanfaatan = $pemanfaatan->where('uptd',$uptd_id);
+            $permohonan = $permohonan->where('uptd_id',$uptd_id);
+            $report = $report->where('uptd_id',$uptd_id);
+
+        }
+        $total_report=[
+            'pemanfaatan' => $pemanfaatan->count(),
+            'permohonan' => $permohonan->count(),
+            'report' => $report->count(),
+
+        ];
+        // dd($total_report);
+        return view('admin.home', compact('inventarisRumijaCategory', 'inventarisRumijaCount', 'uptd', 'categories', 'inCategories','total_report'));
     }
 
     public function downloadFile()

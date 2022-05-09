@@ -95,7 +95,139 @@
 
 @section('page-body')
 <div class="row">
-    <div class="col-md-12 col-xl-6">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Pengawasan dan Pemanfaatan</h4>
+                {{-- <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span> --}}
+                <div class="card-header-right">
+                    <ul class="list-unstyled card-option">
+                        {{-- <li><i class="feather icon-maximize full-card"></i></li>
+                        <li><i class="feather icon-minus minimize-card"></i></li> --}}
+                    </ul>
+                </div>
+            </div>
+            <div class="card-block">
+    
+                <div class="card-deck col-md-12">
+                    {{-- <div class="card w-100">
+                        
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-warning f-w-600">
+                                        {{ @$total_report['not_complete'] }}
+                                    </h4>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-arrow-down f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-warning">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Not Completed</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
+    
+                    <div class="card w-100">
+                        <a href="{{ url('admin/input-data/rumija/rumija') }}" target="_blank">
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-success f-w-600">
+                                        {{ @$total_report['pemanfaatan'] }}
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-arrow-down f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                        <div class="card-footer bg-success">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Pemanfaatan</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="card w-100">
+                        <a href="{{ url('admin/input-data/rumija/permohonan_rumija') }}" target="_blank">
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-primary f-w-600">
+                                        {{ @$total_report['permohonan'] }}
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-arrow-up f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                        <div class="card-footer bg-primary">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Permohonan</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="card w-100">
+                        <a href="{{ route('admin.rumija.report.index') }}" target="_blank">
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-danger f-w-600">
+                                        {{ @$total_report['report'] }}
+    
+                                    </h4>
+                                    {{-- <h6 class="text-muted m-b-0">Finish</h6> --}}
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="feather icon-clock f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                        <div class="card-footer bg-danger">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0">Laporan</p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="feather icon-trending-up text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             
+    
+    
+            </div>
+        </div>
+    </div>
+    {{-- <div class="col-md-12 col-xl-6">
         <div class="card">
             <div class="card-header">
                 <h5>Data Inventaris Rumija</h5>
@@ -148,9 +280,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="col-md-12 col-xl-6">
+    <div class="col-md-12 col-xl-12">
         <div class="card">
             <div class="card-header">
                 <h5>Pengumuman</h5>

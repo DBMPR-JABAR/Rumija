@@ -130,14 +130,31 @@
                                 <option>-</option>
                             </select>
                         </div>
-                        <div class="mb-2">
+                        {{-- <div class="mb-2">
                             <label class="col-form-label">Dokumentasi</label>
                             <input name="image" type="file" class="form-control @error('keterangan') is-invalid @enderror" accept="image/*" required>
                             @error('image')
                             <div class="invalid-feedback">{{$message}}</div>
                             @enderror
-                        </div>			  						  						  						  
-                        
+                        </div>			  						  						  						   --}}
+                        <div class="mb-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Foto</label>
+                                    <input name="image" type="file" class="form-control @error('image') is-invalid @enderror" accept="image/*" required>
+                                    @error('image')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="col-form-label">Video</label>
+                                    <input name="video" type="file" class="form-control @error('video') is-invalid @enderror" accept="video/mp4,video/x-m4v,video/*">
+                                    @error('video')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                         <div class="mb-2">
                             <label class="col-form-label">Keterangan</label>
                             <textarea name="keterangan" id="keterangan" class="form-control @error('keterangan') is-invalid @enderror"></textarea>

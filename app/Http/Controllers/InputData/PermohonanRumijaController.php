@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Auth;
+use App\Transactional\RumijaPermohonan;
 class PermohonanRumijaController extends Controller
 {
     public function __construct()
@@ -38,7 +39,12 @@ class PermohonanRumijaController extends Controller
      */
     public function index()
     {
-        $permohonan_rumija = DB::table('permohonan_rumija')->get();
+        $permohonan_rumija = RumijaPermohonan::latest();
+        if (Auth::user() && Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $permohonan_rumija = $permohonan_rumija->where('uptd_id', $uptd_id);
+        }
+        $permohonan_rumija = $permohonan_rumija->get();
         return view('admin.input_data.permohonan_rumija.index', compact('permohonan_rumija'));
     }
 

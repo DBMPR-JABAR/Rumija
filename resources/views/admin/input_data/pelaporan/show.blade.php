@@ -82,6 +82,12 @@ google.maps.event.addDomListener(window, 'load', initialize);
                 <div class="form-group row">
                     <label class="col-md-12 col-form-label text-center">Dokumentasi</label>
                     <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block" src="{{ Storage::url('public/laporan_rumija/'.$pelaporan->image) }}" alt="">
+                    @if ($pelaporan->video)
+                    <video style="max-height: 400px;" controls src="{{ Storage::url('public/laporan_rumija/'.$pelaporan->video) }}">
+                        Your browser does not support the video tag.
+                    </video>
+                        
+                    @endif
                 </div>
                 <div class="row">
                     <div class="col-md-6">

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use App\Transactional\RumijaPemanfaatan;
 
 class RumijaController extends Controller
 {
@@ -28,9 +30,16 @@ class RumijaController extends Controller
             ];
            if($request->uptd != 'ALL')  $rumija = $rumija->where('rumija.uptd',$request->uptd);
         }
+        $uptd = DB::table('landing_uptd');
 
+        if (Auth::user() && Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $rumija = $rumija->where('uptd', $uptd_id);
+            $uptd = $uptd->where('id', $uptd_id);
+
+        }
         $rumija = $rumija->get();
-        $uptd = DB::table('landing_uptd')->get();
+        $uptd = $uptd->get();
         return view('admin.input_data.rumija.index', compact('rumija','filter','uptd'));
     }
 

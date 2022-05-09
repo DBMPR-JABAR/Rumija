@@ -94,7 +94,7 @@
 
                         <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Dokumentasi</label>
+                            <label class="col-md-3 col-form-label">Foto</label>
                             <div class="col-md-4">
                                 <img style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block"
                                     src="{{ url('storage/laporan_rumija/' . $pelaporan->image) }}" alt="">
@@ -103,7 +103,19 @@
                                 <input name="image" type="file" class="form-control">
                             </div>
                         </div>
-                      
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Video</label>
+                            
+                            <div class="col-md-4">
+                                
+                                <video style="max-height: 400px;" class="img-thumbnail rounded mx-auto d-block" controls src="{{ Storage::url('public/laporan_rumija/'.$pelaporan->video) }}">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            <div class="col-md-5">
+                                <input name="video" type="file" class="form-control" accept="video/mp4,video/x-m4v,video/*">
+                            </div>
+                        </div>
 
                         <button type="submit" class="btn btn-mat btn-success">Simpan Perubahan</button>
                     </form>
