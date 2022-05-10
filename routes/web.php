@@ -224,6 +224,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         Route::get('disposisi-instruksi/delete/{id}', 'DisposisiController@deleteDisposisiInstruksi')->name('deleteDisposisiInstruksi');
     });
     Route::group(['prefix' => 'master-data'], function () {
+        Route::group(['prefix' => 'tipe-pengawasan-pemanfaatan'], function () {
+        });
+
         Route::resource('tipebangunanatas', 'MasterData\TipeBangunanAtasController');
         Route::group(['prefix' => 'jembatan'], function () {
             Route::get('/', 'MasterData\JembatanController@index')->name('getMasterJembatan');

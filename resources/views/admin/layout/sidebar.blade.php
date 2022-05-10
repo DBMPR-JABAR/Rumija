@@ -106,6 +106,14 @@
                             </ul>
                         </li>
                         @endif
+                        @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))
+                        <li class="{{ Request::segment(4) == 'rumija' ? 'active' : '' }}">
+                            <a href="{{ url('admin/input-data/rumija/rumija') }}"
+                                class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Tipe Pengawasan & Pemanfaatan</span>
+                            </a>
+                        </li>
+                        @endif
                     </ul>
                 </li>
             </ul>
