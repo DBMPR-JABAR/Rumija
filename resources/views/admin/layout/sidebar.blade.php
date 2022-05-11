@@ -107,8 +107,8 @@
                         </li>
                         @endif
                         @if (hasAccess(Auth::user()->internal_role_id, 'Rumija', 'View'))
-                        <li class="{{ Request::segment(4) == 'rumija' ? 'active' : '' }}">
-                            <a href="{{ url('admin/input-data/rumija/rumija') }}"
+                        <li class="{{ Request::segment(4) == 'tipe-pengawasan-pemanfaatan' ? 'active' : '' }}">
+                            <a href="{{ route('rumija-tipe.index') }}"
                                 class="waves-effect waves-dark">
                                 <span class="pcoded-mtext">Tipe Pengawasan & Pemanfaatan</span>
                             </a>

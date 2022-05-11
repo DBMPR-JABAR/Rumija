@@ -225,6 +225,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
     Route::group(['prefix' => 'master-data'], function () {
         Route::group(['prefix' => 'tipe-pengawasan-pemanfaatan'], function () {
+            Route::get('/', 'MasterData\RumijaTipeController@index')->name('rumija-tipe.index');
         });
 
         Route::resource('tipebangunanatas', 'MasterData\TipeBangunanAtasController');

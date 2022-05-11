@@ -11,7 +11,8 @@ class RumijaTipeController extends Controller
     //
     public function index(Request $request)
     {
-    	$pelaporan = RumijaTipe::all();
-       	return view('admin.input_data.pelaporan.index',['pelaporan' => $pelaporan]);
+    	$rumija_tipe = RumijaTipe::all();
+        dd($rumija_tipe);
+       	return view('admin.master.rumija_tipe.index',compact('rumija_tipe'));
     }
 }
