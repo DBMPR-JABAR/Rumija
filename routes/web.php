@@ -225,7 +225,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
     Route::group(['prefix' => 'master-data'], function () {
         Route::group(['prefix' => 'tipe-pengawasan-pemanfaatan'], function () {
-            Route::get('/', 'MasterData\RumijaTipeController@index')->name('rumija-tipe.index');
+            Route::get('/', 'MasterData\RumijaTipeController@index')->name('admin.rumija-tipe.index');
+            Route::post('/store', 'MasterData\RumijaTipeController@store')->name('admin.rumija-tipe.store');
+            Route::get('/{id}/delete','MasterData\RumijaTipeController@delete')->name('admin.rumija-tipe.delete');
         });
 
         Route::resource('tipebangunanatas', 'MasterData\TipeBangunanAtasController');

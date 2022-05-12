@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Transactional\RumijaPermohonan;
+use App\Transactional\RumijaTipe;
+use Illuminate\Support\Facades\Storage;
+
 class PermohonanRumijaController extends Controller
 {
     public function __construct()
@@ -56,8 +59,8 @@ class PermohonanRumijaController extends Controller
     public function create()
     {
         $uptd = DB::table('landing_uptd')->get();
-
-        return view('admin.input_data.permohonan_rumija.insert', ['action' => 'store', 'uptd' => $uptd]);
+        $rumija_tipe = RumijaTipe::all();
+        return view('admin.input_data.permohonan_rumija.insert', ['action' => 'store', 'uptd' => $uptd,'rumija_tipe'=>$rumija_tipe]);
     }
 
     /**
@@ -189,7 +192,7 @@ class PermohonanRumijaController extends Controller
 
     public function surat_permohonan_rumija(Request $request, $id)
     {
-        $my_template = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template/permohonan_rumija.docx'));
+        $my_template = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template\permohonan_rumija.docx'));
 
         $ur = '-';
         $data = DB::table('permohonan_rumija')->where('id', $id)->first();
@@ -202,7 +205,7 @@ class PermohonanRumijaController extends Controller
             case 6 : $ur = 'VI'; break;
             default : $ur = '-'; break;
         }
-
+        
         $my_template->setValue('tanggal', $data->tanggal);
         $my_template->setValue('nomor', $data->nomor);
         $my_template->setValue('sifat', $data->sifat);
@@ -213,13 +216,18 @@ class PermohonanRumijaController extends Controller
         $my_template->setValue('nomor_dan_tanggal', $data->nomor_dan_tanggal);
         $my_template->setValue('surat_berkas', $data->surat_berkas);
         $my_template->setValue('jenis_ijin', $data->jenis_ijin);
-
+        $fileName = 'permohonan_rumija_'.$id;
         try {
-            $my_template->saveAs(storage_path('permohonan_rumija/permohonan_rumija_'.$id.'.docx'));
+            // dd(storage_path('permohonan_rumija\permohonan_rumija_'.$id.'.docx'));
+            // $my_template->saveAs(storage_path('permohonan_rumija\permohonan_rumija_'.$id.'.docx'));
+            $my_template->saveAs($fileName.'.docx');
+            // $my_template->saveAs(Storage::url('public/permohonan_rumija/permohonan_rumija_'.$id.'.docx'));
+
         } catch (Exception $e) {
             dd($e);
         }
+        return response()->download($fileName.'.docx')->deleteFileAfterSend(true);
 
-        return response()->download(storage_path('permohonan_rumija/permohonan_rumija_'.$id.'.docx'));
+        // return response()->download(storage_path('permohonan_rumija/permohonan_rumija_'.$id.'.docx'));
     }
 }

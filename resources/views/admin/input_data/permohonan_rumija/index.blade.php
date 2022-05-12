@@ -90,7 +90,7 @@
                                                 data-toggle="tooltip" title="Hapus"><i
                                                     class="icofont icofont-trash"></i></button></a>
                                         @endif
-                                        <a href="{{route('surat_permohonan_rumija', $data->id)}}" download>
+                                        <a href="{{route('surat_permohonan_rumija', $data->id)}}" >
                                             <button class="btn btn-success btn-sm waves-effect waves-light"
                                                 data-toggle="tooltip" title="Download surat permohonan"><i
                                                     class="icofont icofont-download"></i></button></a>
