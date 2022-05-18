@@ -8,6 +8,7 @@ use App\Transactional\RumijaInventarisasiKategori;
 use App\Transactional\RumijaPemanfaatan;
 use App\Transactional\RumijaPermohonan;
 use App\Transactional\RumijaReport;
+
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\DB;
@@ -62,8 +63,34 @@ class Home extends Controller
             'report' => $report->count(),
 
         ];
-        // dd($total_report);
-        return view('admin.home', compact('inventarisRumijaCategory', 'inventarisRumijaCount', 'uptd', 'categories', 'inCategories','total_report'));
+        // dd($uptd);
+        $library_uptd=[];
+        $data_pemanfaatan =[];
+        $data_permohonan =[];
+        $data_laporan =[];
+
+        foreach($uptd as $i){
+            $merge = 'UPTD'.$i->id;
+            array_push($library_uptd,$merge);  
+
+            $pemanfaatan=[
+                'value'=>  $i->rumija_pemanfaatan->count(),
+                'groupId'=>$merge
+            ];
+            array_push($data_pemanfaatan,$pemanfaatan);
+            $permohonan=[
+                'value'=> $i->rumija_permohonan->count(),
+                'groupId'=>$merge
+            ];
+            array_push($data_permohonan,$permohonan);
+            $laporan=[
+                'value'=> $i->rumija_laporan->count(),
+                'groupId'=>$merge
+            ];
+
+            array_push($data_laporan,$laporan);
+        }
+        return view('admin.home', compact('inventarisRumijaCategory', 'inventarisRumijaCount', 'uptd', 'categories', 'inCategories','total_report','library_uptd','data_pemanfaatan','data_permohonan','data_laporan'));
     }
 
     public function downloadFile()

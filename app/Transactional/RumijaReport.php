@@ -22,4 +22,8 @@ class RumijaReport extends Model
     {
         return $this->belongsTo('App\Model\Transactional\RuasJalan', 'ruas_jalan_id','id_ruas_jalan');
     }
+    public function rumija_tipe()
+    {
+        return $this->belongsTo('App\Transactional\RumijaTipe', 'rumija_tipe_id');
+    }
 }

@@ -72,10 +72,15 @@ google.maps.event.addDomListener(window, 'load', initialize);
             <div class="card-block">
 
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label class="col-md-12 col-form-label"><b>Keterangan</b></label>
                         <hr>
                         <label class="col-md-12 col-form-label">{{$pelaporan->keterangan}}</label>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-12 col-form-label"><b>Tipe Laporan</b></label>
+                        <hr>
+                        <label class="col-md-12 col-form-label">{{$pelaporan->rumija_tipe->name}}</label>
                     </div>
                 </div>
                  

@@ -30,21 +30,39 @@ class RumijaTipeController extends Controller
             $msg = $validator->errors();
             return redirect(route('admin.rumija-tipe.index'))->with(compact('color', 'msg'));
         }
-        
+        $words = preg_split("/\s+/", $request->name);
+        $acronym = "";
+
+        foreach ($words as $w) {
+            $acronym .= $w[0];
+        }
+
         $data = RumijaTipe::firstOrNew(['name' => $request->name]);
         $data->slug = Str::slug($request->name, '-');
+        $data->kode = $acronym;
         $data->created_by = Auth::user()->id;
 
         $data->save();
         storeLogActivity(declarLog(1, 'Rumija Tipe', $request->name,1));
-    	return redirect(route('admin.rumija-tipe.index'))->with('sukses','Data Berhasil Ditambahkan!');
+        $color = "success";
+        $msg = "Data Berhasil Ditambahkan!";
+    	return redirect(route('admin.rumija-tipe.index'))->with(compact('color', 'msg'));
     }
     public function delete($id)
     {
+        $color = "success";
+        $msg = "Berhasil Menghapus Data Rumija Tipe!";
     	$data = RumijaTipe::find($id);
-        storeLogActivity(declarLog(3, 'Laporan Rumija', $data->name,1));
+        // dd($data->library_rumija_permohonan->count());
+        if($data->library_rumija_report->count() > 0 || $data->library_rumija_permohonan->count() > 0){
+            storeLogActivity(declarLog(3, 'Rumija Tipe', $data->name));
+            $color = "danger";
+            $msg = "Data Gagal Dihapus! Tipe Sudah Digunakan";
+            return redirect(route('admin.rumija-tipe.index'))->with(compact('color', 'msg'));
+        }
+        storeLogActivity(declarLog(3, 'Rumija Tipe', $data->name,1));
     	$data->delete();
-    	return redirect(route('admin.rumija-tipe.index'))->with('sukses','Data Berhasil Dihapus!');
+    	return redirect(route('admin.rumija-tipe.index'))->with(compact('color', 'msg'));
 
     }
 }

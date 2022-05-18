@@ -156,12 +156,22 @@
                             </div>
                         </div>
                         <div class="mb-2">
+                            <label class="col-form-label">Tipe Laporan</label>
+                            <select class="form-control" name="tipe_laporan" required>
+                                <option value="">--Pilih Tipe--</option>
+                                @foreach ($rumija_tipe as $rumija_tipe)
+                                    <option value="{{ $rumija_tipe->id }}">{{ $rumija_tipe->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-2">
                             <label class="col-form-label">Keterangan</label>
                             <textarea name="keterangan" id="keterangan" class="form-control @error('keterangan') is-invalid @enderror"></textarea>
                             @error('keterangan')
                             <div class="invalid-feedback">{{$message}}</div>
                             @enderror
                         </div>
+                        
 
                         <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
                         

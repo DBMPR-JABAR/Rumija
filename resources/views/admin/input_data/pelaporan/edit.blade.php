@@ -71,6 +71,18 @@
                                 </select>
                             </div>
                         </div>
+                       
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Tipe Laporan</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="tipe_laporan" required>
+                                    <option value="">--Pilih Tipe--</option>
+                                    @foreach ($rumija_tipe as $rumija_tipe)
+                                        <option value="{{ $rumija_tipe->id }}" @if($rumija_tipe->id == @$pelaporan->rumija_tipe_id) selected @endif>{{ $rumija_tipe->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Keterangan</label>
                             <div class="col-md-10">

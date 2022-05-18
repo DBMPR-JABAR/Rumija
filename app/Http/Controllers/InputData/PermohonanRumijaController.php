@@ -60,6 +60,7 @@ class PermohonanRumijaController extends Controller
     {
         $uptd = DB::table('landing_uptd')->get();
         $rumija_tipe = RumijaTipe::all();
+        
         return view('admin.input_data.permohonan_rumija.insert', ['action' => 'store', 'uptd' => $uptd,'rumija_tipe'=>$rumija_tipe]);
     }
 
@@ -121,9 +122,11 @@ class PermohonanRumijaController extends Controller
      */
     public function edit($id)
     {
+        $rumija_tipe = RumijaTipe::all();
+
         $permohonan_rumija = DB::table('permohonan_rumija')->where('id', $id)->first();
         $uptd = DB::table('landing_uptd')->get();
-        return view('admin.input_data.permohonan_rumija.insert', ['action' => 'update', 'permohonan_rumija' => $permohonan_rumija, 'uptd' => $uptd]);
+        return view('admin.input_data.permohonan_rumija.insert', ['action' => 'update', 'permohonan_rumija' => $permohonan_rumija, 'uptd' => $uptd,'rumija_tipe'=>$rumija_tipe]);
     }
 
     /**

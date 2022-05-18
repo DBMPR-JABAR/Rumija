@@ -148,9 +148,17 @@
                             <div class="col-md-9">
                                 <select class="form-control searchableField" id="tipe_permohonan" name="tipe_permohonan"
                                     required>
-                                    
+                                    {{-- <option value="PU"
+                                        {{ @$permohonan_rumija->tipe_permohonan == 'PU' ? 'selected' : '' }}>
+                                        Pemasangan Utilitas</option>
+                                    <option value="JM"
+                                        {{ @$permohonan_rumija->tipe_permohonan == 'JM' ? 'selected' : '' }}>
+                                        Jalan Masuk</option>
+                                    <option value="PR"
+                                        {{ @$permohonan_rumija->tipe_permohonan == 'PR' ? 'selected' : '' }}>
+                                        Pemasangan Reklame</option> --}}
                                     @foreach ($rumija_tipe as $rumija_tipe)
-                                        <option value="{{ $rumija_tipe->id }}">{{ $rumija_tipe->name }}</option>
+                                        <option value="{{ $rumija_tipe->kode }}" @if(@$permohonan_rumija->tipe_permohonan == $rumija_tipe->kode) selected @endif>{{ $rumija_tipe->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

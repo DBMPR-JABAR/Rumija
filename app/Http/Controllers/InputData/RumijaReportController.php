@@ -5,6 +5,7 @@ namespace App\Http\Controllers\InputData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Transactional\RumijaReport;
+use App\Transactional\RumijaTipe;
 use App\Model\Transactional\RuasJalan;
 
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +17,10 @@ class RumijaReportController extends Controller
     //
     public function index(Request $request)
     {
-    	$pelaporan = RumijaReport::all();
-       	return view('admin.input_data.pelaporan.index',['pelaporan' => $pelaporan]);
+    	$pelaporan = RumijaReport::latest()->get();
+        $rumija_tipe = RumijaTipe::all();
+
+       	return view('admin.input_data.pelaporan.index',compact('rumija_tipe','pelaporan'));
     }
 
     public function create(Request $request)
@@ -35,6 +38,7 @@ class RumijaReportController extends Controller
             'ruas_jalan_id' => 'required',
             'lat' => 'required',
             'long' => 'required',
+            'tipe_laporan' => 'required',
             'keterangan' =>''
         ]);
         if ($validator->fails()) {
@@ -53,6 +57,7 @@ class RumijaReportController extends Controller
             'sup'=>$ruas->data_sup->name,
             'kota_id'=>$ruas->kota_id,
             'uptd_id'=>$ruas->uptd_id,
+            'rumija_tipe_id' =>$request->tipe_laporan,
             'keterangan'=>$request->keterangan
         ];
         if($request->file('video')){
@@ -95,8 +100,9 @@ class RumijaReportController extends Controller
     {
     	$pelaporan = RumijaReport::find($id);
         $ruas = RuasJalan::where('uptd_id',$pelaporan->uptd_id)->get();
+        $rumija_tipe = RumijaTipe::all();
 
-    	return view('admin.input_data.pelaporan.edit',compact('ruas','pelaporan'));
+    	return view('admin.input_data.pelaporan.edit',compact('ruas','pelaporan','rumija_tipe'));
 
     }
     public function update(Request $request,$id)
@@ -107,6 +113,7 @@ class RumijaReportController extends Controller
             'ruas_jalan_id' => 'required',
             'lat' => 'required',
             'long' => 'required',
+            'tipe_laporan' => 'required',
             'keterangan' =>''
         ]);
         if ($validator->fails()) {
@@ -127,6 +134,7 @@ class RumijaReportController extends Controller
             'sup'=>$ruas->data_sup->name,
             'kota_id'=>$ruas->kota_id,
             'uptd_id'=>$ruas->uptd_id,
+            'rumija_tipe_id' =>$request->tipe_laporan,
             'keterangan'=>$request->keterangan
         ];
         if($request->file('image')){

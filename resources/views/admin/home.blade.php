@@ -68,6 +68,9 @@
         font-size: 8pt;
     }
 </style>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.1/echarts.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.1/dist/echarts.min.js"></script>
 @endsection
 
 @section('page-header')
@@ -108,6 +111,7 @@
                 </div>
             </div>
             <div class="card-block">
+                <div class="chart has-fixed-height" id="pie_basic" style="width: 800px; height: 600px;"></div>
     
                 <div class="card-deck col-md-12">
                     {{-- <div class="card w-100">
@@ -308,6 +312,8 @@
                 </div>
                 @endforeach
                 {{ $pengumuman_internal->links() }}
+                <span style="color :#ff0000; font-size: 10px;"><i class='icofont icofont-user'></i>
+
             </div>
         </div>
     </div>
@@ -333,6 +339,94 @@
         const href = data?.node?.data?.href
         if(href) window.open(href,'_blank');
      });
+
+</script>
+<script>
+    var library_uptd = {!! json_encode($library_uptd) !!};
+    var data_pemanfaatan = {!! json_encode($data_pemanfaatan) !!};
+    var data_permohonan = {!! json_encode($data_permohonan) !!};
+    var data_laporan = {!! json_encode($data_laporan) !!};
+
+    var chartDom = document.getElementById('pie_basic');
+    var myChart = echarts.init(chartDom);
+    var option;
+    
+    option = {
+        xAxis: {
+            type: 'category',
+            data: library_uptd
+        },
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        dataGroupId: '',
+        animationDurationUpdate: 500,
+        tooltip: {
+            trigger: 'axis',
+            // formatter: '{b}<br />{a0}: {c0} Km<br />{a1}: {c1} Km<br />{a2}: {c2} Km<br />{a3}: {c3} Km<br />{a4}: {c4} Km'
+        },
+        legend: {
+            data: ['PEMANFAATAN', 'PERMOHONAN', 'LAPORAN'],
+            selected: {
+                
+                PEMANFAATAN: true,
+                PERMOHONAN: true,
+                LAPORAN: true
+
+            }
+        },
+        toolbox: {
+            show: true,
+            feature: {
+            dataView: { show: false, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] },
+            restore: { show: true },
+            saveAsImage: { show: true }
+            }
+        },
+        
+        calculable: true,
+
+        series: [
+            {
+                name: 'PEMANFAATAN',
+                type: 'bar',
+                id: 'sales',
+                itemStyle: {color: '#28a745'},
+                data: data_pemanfaatan,
+                universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                }
+            },
+            {
+                name: 'PERMOHONAN',
+                type: 'bar',
+                itemStyle: {color: '#002fff'},
+
+                data: data_permohonan,
+                universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                }
+            },
+            {
+                name: 'LAPORAN',
+                type: 'bar',
+                itemStyle: {color: '#cc0101'},
+
+                data: data_laporan,
+                universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                }
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
 
 </script>
 @endsection

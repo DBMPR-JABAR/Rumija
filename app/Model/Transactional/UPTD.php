@@ -22,4 +22,17 @@ class UPTD extends Model
     {
         return $this->hasMany(RumijaInventarisasi::class, 'uptd_id');
     }
+
+    public function rumija_pemanfaatan()
+    {
+        return $this->hasMany('App\Transactional\RumijaPemanfaatan', 'uptd');
+    }
+    public function rumija_permohonan()
+    {
+        return $this->hasMany('App\Transactional\RumijaPermohonan', 'uptd_id');
+    }
+    public function rumija_laporan()
+    {
+        return $this->hasMany('App\Transactional\RumijaReport', 'uptd_id');
+    }
 }
