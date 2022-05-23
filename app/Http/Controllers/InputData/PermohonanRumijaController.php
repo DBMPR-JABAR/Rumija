@@ -229,6 +229,7 @@ class PermohonanRumijaController extends Controller
         } catch (Exception $e) {
             dd($e);
         }
+        dd('ok');
         return response()->download($fileName.'.docx')->deleteFileAfterSend(true);
 
         // return response()->download(storage_path('permohonan_rumija/permohonan_rumija_'.$id.'.docx'));
