@@ -196,6 +196,7 @@ class PermohonanRumijaController extends Controller
     public function surat_permohonan_rumija(Request $request, $id)
     {
         $my_template = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template/permohonan_rumija.docx'));
+        dd('ok');
 
         $ur = '-';
         $data = DB::table('permohonan_rumija')->where('id', $id)->first();
@@ -229,7 +230,6 @@ class PermohonanRumijaController extends Controller
         } catch (Exception $e) {
             dd($e);
         }
-        dd('ok');
         return response()->download($fileName.'.docx')->deleteFileAfterSend(true);
 
         // return response()->download(storage_path('permohonan_rumija/permohonan_rumija_'.$id.'.docx'));
