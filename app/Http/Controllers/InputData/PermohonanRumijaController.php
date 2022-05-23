@@ -195,7 +195,7 @@ class PermohonanRumijaController extends Controller
 
     public function surat_permohonan_rumija(Request $request, $id)
     {
-        $my_template = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template\permohonan_rumija.docx'));
+        $my_template = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template/permohonan_rumija.docx'));
 
         $ur = '-';
         $data = DB::table('permohonan_rumija')->where('id', $id)->first();
