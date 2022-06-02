@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div class="card-block">
-                @if (hasAccess(Auth::user()->internal_role_id, "Pekerjaan", "Create"))
+                @if (hasAccess(Auth::user()->internal_role_id, "Rumija", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-mat btn-primary mb-3">Tambah</a>
                 @endif
                 <div class="dt-responsive table-responsive">
