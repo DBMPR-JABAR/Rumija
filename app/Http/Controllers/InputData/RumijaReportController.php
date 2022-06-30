@@ -7,20 +7,41 @@ use Illuminate\Http\Request;
 use App\Transactional\RumijaReport;
 use App\Transactional\RumijaTipe;
 use App\Model\Transactional\RuasJalan;
+use App\Model\Transactional\SUP;
+use App\Model\Transactional\UPTD;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class RumijaReportController extends Controller
 {
     //
     public function index(Request $request)
     {
-    	$pelaporan = RumijaReport::latest()->get();
-        $rumija_tipe = RumijaTipe::all();
+        $filter['uptd_filter']=null;
+        $filter['sup_filter']=null;
+        $sup = SUP::orderBy('uptd_id');
 
-       	return view('admin.input_data.pelaporan.index',compact('rumija_tipe','pelaporan'));
+        $pelaporan = RumijaReport::latest();
+        $rumija_tipe = RumijaTipe::all();
+        if($request->uptd_filter || $request->sup_filter ){
+            if($request->uptd_filter){
+                $filter['uptd_filter'] = $request->uptd_filter;
+                $sup = $sup->where('uptd_id',$filter['uptd_filter']);
+                $pelaporan = $pelaporan->where('uptd_id',$filter['uptd_filter']);
+            }
+            if($request->sup_filter && $request->sup_filter != 'Pilih Semua'){
+                $filter['sup_filter'] = $request->sup_filter;
+                $pelaporan = $pelaporan->where('sup_id',$filter['sup_filter']);
+
+            }
+        }
+    	$pelaporan = $pelaporan->get();
+        $sup = $sup->get();
+
+       	return view('admin.input_data.pelaporan.index',compact('rumija_tipe','pelaporan','sup','filter'));
     }
 
     public function create(Request $request)
@@ -78,11 +99,15 @@ class RumijaReportController extends Controller
         $row = RumijaReport::select('id_laporan')->orderByDesc('id_laporan')->limit(1)->first();
         if($row){
 
-            $nomor = intval(substr($row->id_laporan, strlen('LR-'))) + 1;
+            $nomor = intval(substr($row->id_laporan, strlen('LR-')));
+            $nomor = substr($nomor, -4)+1;
         }else{
-            $nomor = 000001;
+            $nomor = 0001;
         }
-        $temporari['id_laporan'] = 'LR-' . str_pad($nomor, 6, "0", STR_PAD_LEFT);
+        $now = Carbon::now();
+        $date = $now->format('y').$now->format('m');
+        $temporari['id_laporan'] = 'LR-' .$date. str_pad($nomor, 4, "0", STR_PAD_LEFT);
+        // dd($temporari);
 
         RumijaReport::create($temporari);
         storeLogActivity(declarLog(1, 'Laporan Rumija', $temporari['id_laporan'],1));
