@@ -185,7 +185,7 @@
                             <label class="col-form-label">UPTD</label>
                             <select class="form-control" id="uptd" name="uptd_id" onchange="ubahOption()" required>
                                 <option>Pilih UPTD</option>
-                                @foreach ($uptd_lists as $data)
+                                @foreach ($input_uptd_lists as $data)
                                 @if ( $data->id != 11)
                                 <option value="{{$data->id}}">{{$data->nama}}</option>
                                 @endif

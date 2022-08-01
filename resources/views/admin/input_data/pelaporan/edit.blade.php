@@ -52,7 +52,7 @@
                             <label class="col-md-2 col-form-label">Uptd</label>
                             <div class="col-md-10">
                                 <select class="form-control searchableField" id="uptd" name="uptd_id" onchange="ubahOption()">
-                                    @foreach ($uptd_lists as $data)
+                                    @foreach ($input_uptd_lists as $data)
                                         <option value="{{ $data->id }}"
                                             {{ $data->id == $pelaporan->uptd_id ? 'selected' : '' }}>
                                             {{ $data->nama }}</option>

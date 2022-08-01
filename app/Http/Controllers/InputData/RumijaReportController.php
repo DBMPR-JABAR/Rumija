@@ -38,6 +38,21 @@ class RumijaReportController extends Controller
 
             }
         }
+        if (Auth::user() && Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $pelaporan = $pelaporan->where('uptd_id',$uptd_id);
+            $sup = $sup->where('uptd_id',$uptd_id);
+
+            if (Auth::user()->sup_id) {
+                $pelaporan = $pelaporan->where('sup_id',Auth::user()->sup_id);
+                $sup = $sup->where('id',Auth::user()->sup_id);
+
+                // if (count(Auth::user()->ruas) > 0) {
+                //     $data = $data->whereIn('ruas_jalan_id', Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
+                // }
+            }
+        }
+        
     	$pelaporan = $pelaporan->get();
         $sup = $sup->get();
 
