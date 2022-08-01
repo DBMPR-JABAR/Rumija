@@ -73,4 +73,8 @@ class User extends Authenticatable implements JWTSubject
     // {
     //     return $this->hasOne('App\Model\Transactional\SUP', 'user_id');
     // }
+    public function data_sup()
+    {
+        return $this->belongsTo('App\Model\Transactional\SUP', 'sup_id');
+    }
 }

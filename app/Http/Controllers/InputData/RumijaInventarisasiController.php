@@ -18,7 +18,19 @@ class RumijaInventarisasiController extends Controller
     //
     public function index()
     {
-        $data = Inventarisasi::get();
+        $data = Inventarisasi::latest();
+        if (Auth::user() && Auth::user()->internalRole->uptd) {
+            $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
+            $data = $data->where('uptd_id',$uptd_id);
+
+            if (Auth::user()->sup_id) {
+                $data = $data->where('kd_sup',Auth::user()->data_sup->kd_sup);
+                if (count(Auth::user()->ruas) > 0) {
+                    $data = $data->whereIn('id_ruas_jalan', Auth::user()->ruas->pluck('id_ruas_jalan')->toArray());
+                }
+            }
+        }
+        $data = $data->get();
         return view('admin.input_data.rumija_inventarisasi.index', compact('data'));
     }
     public function create()
